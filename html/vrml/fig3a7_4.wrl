@@ -1,0 +1,76 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint	{
+	position 0 0 .8
+}
+
+DirectionalLight {
+	direction	0 -1 0
+	intensity	.3
+}
+
+Arc {
+  centerAt -.2 -.039 .201
+  radius .1
+  startAt 0
+  angle 11
+}
+
+DEF Ramp Transform {
+  translation 0 -.04 0
+  children [
+    Shape {
+      geometry Extrusion {
+        crossSection [
+          -.2 0
+          .2 0
+          .2 -.08
+          -.2 0
+        ]
+        spine [
+          0 0 -.2
+          0 0 .2
+        ]
+      }
+      appearance Appearance {
+        material Material {
+          transparency .3
+        }
+      }
+    }
+  ]
+}
+
+Label {
+  text "α"
+  position -.09 -.035 .202
+  color 1 0 0
+}
+
+Label {
+  text "Δh"  #\206\148
+  position .215 0 .202
+}
+
+Label {
+  text "Δl"
+  position .03 .01 .202
+}
+

@@ -1,0 +1,98 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO HCyl [
+#  field SFFloat radius
+#  field SFFloat height
+#  field SFInt32 resolution
+#  field SFBool  outline
+#]"p_hcyl.wrl"
+
+PROTO HCyl [
+  field SFFloat radius 0.05
+  field SFFloat height 0.01
+  field SFInt32 resolution 40
+  field SFBool  outline TRUE
+]
+{
+  
+  Group {
+    children [
+      DEF Body Shape {
+        geometry DEF extr Extrusion { 
+          creaseAngle 1
+        }
+        appearance Appearance {
+          material Material {
+            diffuseColor .5 .5 .5
+            shininess .2
+            specularColor .7 .7 .7
+            transparency 0.5
+          }
+        }
+      }
+
+      Shape {
+        geometry DEF outlineG IndexedLineSet {
+          coord Coordinate {}
+        }
+        appearance Appearance {
+          material Material {
+            emissiveColor 0 0 0
+          }
+        }
+      }
+    ]
+  }
+
+  DEF Builder Script {
+    field SFFloat radius IS radius
+    field SFFloat height IS height
+    field SFInt32 resolution IS resolution
+    field SFBool  outline IS outline
+    field SFNode  outlineG USE outlineG
+    eventOut MFVec2f crossSection_changed
+    eventOut MFVec3f spine_changed
+    url "javascript:
+      var da = Math.PI / resolution;
+      var crossS = new MFVec2f();
+      var newSpine = new MFVec3f();
+      var points = new MFVec3f();
+      var indexes = new MFInt32();
+      function initialize(){
+        for (i=0; i<=resolution; i++){
+          crossS[i] = new SFVec2f(radius * Math.cos(i*da), -radius * Math.sin(i*da));
+        } 
+        crossS[resolution + 1] = crossS[0];  
+        newSpine[0] = new SFVec3f(0, 0, 0);
+        newSpine[1] = new SFVec3f(0, 0, height);
+        crossSection_changed = crossS;
+        spine_changed = newSpine;
+
+        if (outline) {
+          var res = resolution;
+          for (i=0; i<= res; i++){
+            points[i] = new SFVec3f(radius * Math.cos(i*da), radius * Math.sin(i*da), height);
+            indexes[i] = i;
+          }
+          indexes[res + 1] = 0;
+          indexes[res + 2] = -1;
+          for (i=0; i<= res; i++){
+            points[i+res+3] = new SFVec3f(radius * Math.cos(i*da), radius * Math.sin(i*da), 0);
+            indexes[i+res+3] = i + res + 3;            
+          }
+          var Res = 2*res;
+          indexes[Res + 4] = res + 3;
+          indexes[Res + 5] = 0;
+          indexes[Res + 6] = -1;
+          indexes[Res + 7] = res;
+          indexes[Res + 8] = 2*res + 3; 
+          outlineG.coord.point= points;
+          outlineG.coordIndex = indexes;
+        }
+      }
+    "
+  }
+
+  ROUTE Builder.crossSection_changed TO extr.set_crossSection
+  ROUTE Builder.spine_changed TO extr.set_spine
+}

@@ -1,0 +1,133 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Arrow [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_arrow.wrl"
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+Viewpoint {
+  position 0 0 .5
+}
+
+DirectionalLight {
+  direction 0 -1 0
+  intensity .5
+}
+
+DEF Spinner Transform {
+  children [
+    Shape {
+      geometry Cylinder {
+        radius .1
+        height .02
+      }
+      appearance DEF MetalApp Appearance {
+        material Material {
+          shininess .5
+          diffuseColor .7 .7 .7
+          specularColor .9 .9 .9
+          ambientIntensity 1
+        }
+      }
+    }
+    Transform {
+      translation 0 .05 0
+      children [
+        Shape {
+          geometry Cylinder {
+            radius .005
+            height .2
+          }
+          appearance USE MetalApp
+        }
+      ]
+    }
+    Transform {
+      rotation 1 0 0 3.14
+      translation 0 -.06 0
+      children [
+        Shape {
+          geometry Cone {
+            bottomRadius .005
+            height .02
+          }
+          appearance USE MetalApp
+        }
+      ]
+    }
+  ]
+}
+
+Transform {
+  translation 0 -.07 0
+  children [
+    Shape {
+      geometry Box {
+        size .3 .005 .3
+      }
+      appearance Appearance {
+        material Material {
+          transparency .5
+        }
+      }
+    }
+  ]
+}
+
+DEF Spin Transform {
+  translation 0 .05 0
+  scale .05 .05 .05
+  rotation 1 0 0 -1.57
+  children [
+    Transform {
+      rotation 0 0 1 2.3
+      children [
+        Arc {
+          centerAt 0 0 0
+          radius 1
+          startAt 0
+          angle 270
+        }
+        Transform {
+          translation 0 -1 0
+          rotation 0 0 1 -1.57
+          children [
+            Arrow {
+              arrowLenght .5
+              arrowAngle .5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+DEF Timer TimeSensor {
+  cycleInterval 1
+  loop TRUE
+}
+
+DEF OI OrientationInterpolator {
+  key [0 .5 1]
+  keyValue [
+    0 1 0 0
+    0 1 0 3.14
+    0 1 0 6.28
+  ]
+}
+
+ROUTE Timer.fraction_changed TO OI.set_fraction
+ROUTE OI.value_changed TO Spinner.rotation

@@ -1,0 +1,56 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Prism [
+  field SFFloat A
+  field SFFloat h
+  field SFFloat H
+  field SFNode app
+]"p_prism.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 .3
+}
+
+Prism {
+  A 60
+  h .1
+  H .04
+  app Appearance {
+    material Material {
+      diffuseColor .5 .5 .5
+      transparency .7
+    }
+  }
+}
+
+
+Ray {
+ Position -.1011 .075 .02
+ Direction .130 -.075  0
+}
+
+Label {
+  text "I'"
+  position .02 -.01 0
+}

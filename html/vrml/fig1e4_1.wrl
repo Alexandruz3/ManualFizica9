@@ -1,0 +1,175 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO SCLens [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat apperture
+]"p_sclens.wrl"
+
+EXTERNPROTO Arrow [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_arrow.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 .4
+}
+
+Line {
+  startAt -.25 0 0
+  endAt .25 0 0
+}
+
+SCLens {
+  position -.1 0 0
+  apperture .07
+}
+
+Line {
+  startAt -.15 .003 0
+  endAt -.15 -.003 0
+}
+
+Line {
+  startAt -.05 .003 0
+  endAt -.05 -.003 0
+}
+
+Arrow {
+  position -.16 0 0
+  lenght .02
+}
+
+Transform {
+  translation .2 0 0
+  rotation 0 0 1 3.14
+  children [
+    Arrow {
+      lenght .1
+    }
+  ]
+}
+
+Ray {
+  Position -.16 .02 0
+  Direction .06 0 0
+  HeadPos .03
+}
+
+Ray {
+  Position -.1 .02 0
+  Direction .6 -.24 0
+  HeadPos .03
+}
+
+Ray {
+  Position -.16 .02 0
+  Direction .06 -.02 0
+  StemColor .5 .5 .5
+  HeadColor .5 .5 .5
+  HeadPos .03
+}
+
+Ray {
+  Position -.1 0 0
+  Direction .6 -.2 0
+  StemColor .5 .5 .5
+  HeadColor .5 .5 .5
+  HeadPos .03
+}
+
+Line {
+  startAt -.15 -.003 0
+  endAt -.15 -.115 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt -.1 -.03 0
+  endAt -.1 -.115 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt .2 -.1 0
+  endAt .2 -.115 0
+  color .7 .7 .7
+}
+
+Quota {
+  startAt -.15 -.11 0
+  lenght .05
+  color .7 .7 .7
+}
+
+Quota {
+  startAt -.1 -.11 0
+  lenght .3
+  color .7 .7 .7
+}
+
+Label {
+  text "h"
+  position -.17 .005 0
+}
+
+Label {
+  text "Ob"
+  position -.085 .03 0
+}
+
+Label {
+  text "f"
+  sub "ob"
+  position -.13 -.1 0
+}
+
+Label {
+  text "L"
+  position .05 -.1 0
+}
+
+Label {
+  text "H"
+  position .21 -.05 0
+}

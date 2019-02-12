@@ -1,0 +1,61 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO XYCopy [
+#	field SFInt32   xCopies
+#	field	SFInt32	  yCopies
+#  field	SFFloat	  xShift 
+#	field SFFloat 	yShift   
+#	field MFNode    children
+#]"p_xycopy.wrl"
+
+PROTO XYCopy [
+	field SFInt32   xCopies		0
+	field	SFInt32	  yCopies		0
+  field	SFFloat	  xShift		0.0 
+	field SFFloat 	yShift  	0.0   
+	field MFNode    children	[]
+]
+{
+	Group {
+  	children [
+	  	DEF OriginalGroup Group { 
+				children IS children 
+			}
+	  
+			DEF ReplicaGroup Group { 
+				children [] 
+			}
+
+	  	DEF Builder Script {
+	    	 field SFInt32	xCopies IS xCopies
+				 field SFInt32	yCopies IS yCopies
+				 field SFFloat	xShift	IS xShift
+				 field SFFloat	yShift	IS yShift
+				 field SFNode		OriginalGroup USE	OriginalGroup
+	    	 field SFNode   ReplicaGroup USE ReplicaGroup
+	    	 url "javascript:
+	        	function newTransform(i, j) {
+	          	 var str = 
+	            	 'Transform {' +
+	            	 '	translation ' + new SFVec3f((i - 1) * xShift, -(j - 1) * yShift, 0) +
+	            	 '}';
+	          	 return str;
+	        	}
+	        	function initialize() {
+	          	var newNode = new MFNode();
+							var idx = 0;
+	          	for(var i = 1; i <= xCopies; i++) {
+								for (var j = 1; j <= yCopies; j++) {
+								  newNode[idx] = new SFNode(newTransform(i, j));
+									newNode[idx].addChildren = OriginalGroup.children;
+									idx += 1;
+								}
+	          	}
+	          	ReplicaGroup.addChildren = newNode;
+	        	}
+	    	 "
+			}
+	  ]
+	}
+
+}

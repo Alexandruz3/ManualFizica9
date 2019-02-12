@@ -1,0 +1,50 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO	PerfBoardElem [
+	field	SFVec3f	position
+	field	SFFloat	width
+	field	SFFloat	holeDiam
+	field	SFFloat	thick
+]"proto_perfboardelem.wrl"
+
+EXTERNPROTO XYCopy [
+	field SFInt32   xCopies
+	field	SFInt32	  yCopies
+  field	SFFloat	  xShift 
+	field SFFloat 	yShift   
+	field MFNode    children
+]"proto_xycopy.wrl"
+
+EXTERNPROTO	R [
+	eventIn	MFInt32	set_value
+	field MFInt32 value	
+	field	MFFloat	terminals
+]"proto_r.wrl"
+
+XYCopy{
+	xCopies	20
+	yCopies	8
+	xShift .00254
+	yShift .00254
+	children PerfBoardElem {}
+}
+
+XYCopy {
+  xCopies	9
+	yCopies	1
+	xShift .00508
+	children [
+		Transform	{
+			translation	.005 -.01 .002
+			children R{
+			value	[4 7 2 5]
+			terminals	[1 10]
+		}
+		}
+	]
+}
+
+Viewpoint	{
+	position 0 0 .2
+}
+

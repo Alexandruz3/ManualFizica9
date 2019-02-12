@@ -1,0 +1,376 @@
+#VRML V2.0 utf8
+
+DirectionalLight {
+	direction 0 -1 0
+	ambientIntensity 1
+}
+
+#DirectionalLight {
+#	direction -1 -1 -1
+#	ambientIntensity 1
+#}
+
+Viewpoint {
+	position 0 20 40
+	orientation	1 0 0 -.48
+  fieldOfView .25
+}
+
+#Background {
+#	groundColor	[.5 .5 .5]
+#	skyColor [.5 .5 .8]
+#}
+
+DEF	Surface Transform{
+	translation	0 -.4 0
+	children[
+		Shape{
+			appearance Appearance {
+				material Material {
+					diffuseColor .3 .3 .3
+					transparency .2
+				}
+			}
+			geometry Box{
+				size 100 .2 6
+			}
+		}
+	]
+}
+
+DEF	Body Transform{
+	children[
+		DEF	Brick Transform{
+			translation	-2.4 0 0
+			children[
+				Shape{
+					appearance Appearance {
+						material Material {
+							diffuseColor .8 .5 .5
+							transparency .3
+						}
+					}
+					geometry Box{
+						size 4 .8 2
+					}
+				}
+			]
+		}
+
+		DEF	Hook Transform{
+			scale .2 .2 .2
+			rotation 0 0 1 -1.57
+			children[
+				Shape{
+					appearance Appearance{
+						material Material {
+							diffuseColor .7 .7 .7
+							shininess 1
+						}
+					}
+					geometry Extrusion {
+						crossSection [
+							1     0
+							0.92 -0.38
+							0.71 -0.71
+							0.38 -0.92
+							0    -1
+						   -0.38 -0.92
+						   -0.71 -0.71
+						   -0.92 -0.38
+						   -1     0
+						   -0.92  0.38
+						   -0.71  0.71
+						   -0.38  0.92
+				    		0     1
+							0.38  0.92
+							0.71  0.71
+							0.92  0.38
+							1     0
+						]
+						scale [
+							0.15   0.15
+						]
+						spine[
+				    		0   -2     0
+							0    0.7   0
+							0.1  0.89  0
+							0.38  1.08	0
+							0.71  1.29  0
+							0.92  1.68	0
+							1     2     0
+							0.92  2.38	0
+							0.71  2.71  0
+							0.38  2.92	0
+							0     3     0
+						   -0.38  2.92	0
+						   -0.71  2.71  0
+						   -0.92  2.38	0
+						   -1     2     0
+						]
+					}
+				}
+				Transform{
+					translation	0 2 0
+					rotation 1 0 0 1.57
+					children[
+						Shape{
+							appearance Appearance{
+								material Material {
+									transparency 1
+								}
+							}
+							geometry Cylinder{
+								radius 1
+								height .3
+							}
+						}
+					]	
+				}	
+				DEF	PullSensor PlaneSensor{
+					minPosition	1 -100 
+					maxPosition	1 100
+					offset 0 0 1
+				}
+			]
+		}
+		DEF F Transform{
+			children[
+				Shape{
+					appearance DEF force_app Appearance{
+						material Material { diffuseColor 1 0 0 }
+					}
+					geometry Cylinder { height 1 radius .02}
+				}
+				Transform{
+					translation	0 .6 0
+					children[
+						Shape{
+							appearance USE force_app 
+							geometry Cone { bottomRadius .06 height	.2 }
+						}
+					]
+				}
+			]
+		}
+		DEF	G Transform{
+			translation	-2.4 -2 0
+			rotation 0 0 1 3.14
+			scale 3 4 3
+			children[
+				Shape{
+					appearance DEF g_app Appearance{
+						material Material { diffuseColor 0 0 1 }
+					}
+					geometry Cylinder { height 1 radius .02}
+				}
+				Transform{
+					translation	0 .6 0
+					children[
+						Shape{
+							appearance USE g_app 
+							geometry Cone { bottomRadius .06 height	.2 }
+						}
+					]
+				}				
+			]
+		}
+		DEF	FC1 Transform{
+			translation -3.4 0 .5
+			center 3.4 -.5 -.5
+			children[
+				DEF	FC Transform{
+					scale 2 1 2
+					children[
+						Shape{
+							appearance DEF fc_app Appearance{
+								material Material { diffuseColor 1 .8 .2 }
+							}
+							geometry Cylinder { height 1 radius .02}
+						}
+						Transform{
+							translation	0 .6 0
+							children[
+								Shape{
+									appearance USE fc_app 
+									geometry Cone { bottomRadius .06 height	.2 }
+								}
+							]
+						}								
+					]
+				}
+			]
+		}
+		DEF	FC2	Transform{
+			translation	-3.4 0 -.5
+			center 3.4 0 .5
+			children[
+				USE	FC
+			]
+		}
+		DEF	FC3	Transform{
+			translation	-1.4 0 .5
+			center 1.4 0 -.5
+			children[
+				USE	FC
+			]
+		}
+		DEF	FC4	Transform{
+			translation	-1.4 0 -.5
+			center 1.4 0 .5
+			children[
+				USE	FC
+			]
+		}
+
+	]
+}
+
+DEF	Clock TimeSensor{
+	cycleInterval .01
+	loop TRUE
+}
+
+DEF	Debug Transform{
+	translation	-4 2 0
+	children[
+		Shape{
+			appearance Appearance {
+				material Material { diffuseColor 1 1 0 }
+			}
+			geometry DEF Display Text{}
+		}
+	]
+}
+
+DEF	Pull Script{
+
+	eventIn	SFVec3f	process
+	eventIn	SFBool isPull
+	eventIn	SFFloat	time_process
+
+	eventOut SFVec3f FPos_changed
+	eventOut SFVec3f FScale_changed
+	eventOut SFRotation	FOrientation_changed
+	eventOut SFVec3f BodyPos_changed
+	eventOut SFRotation	FCRotation_changed
+	eventOut SFVec3f FCScale_changed
+	eventOut SFVec3f FCPos_changed
+
+	eventOut MFString Display_changed
+
+	url	"javascript:
+
+		var FInitial_scale = .001;
+		var FInitial_posX  = .55;
+		var FInitial_posY  = 0;
+		var FInitial_posZ  = 0;
+		var PullNewX = 0;
+		var PullOldX = 0;
+		var FX = 0;
+		var BodyX0 = 0;
+		var BodyX  = 0;
+		var Ellapsed_time = 0;
+		var t = 0;
+		var t0 = 0;
+		var dt = .01;
+		var Body_mass = .0002;
+		var Body_NewVX = 0;
+		var Body_OldVX = 0;
+		var Body_accX = 0;
+		var FfX = 0;
+		var FCMagnitude = 1;
+		var Phi = 0;
+
+		function initialize(){
+			FScale_changed[0] = FInitial_scale;
+			FScale_changed[1] = FInitial_scale;
+			FScale_changed[2] = FInitial_scale;
+
+			FPos_changed[0] = FInitial_posX;
+			FPos_changed[1] = FInitial_posY;
+			FPos_changed[2] = FInitial_posZ;
+		}
+
+		function update(){
+			FScale_changed[0] = Math.abs(FX);
+			FScale_changed[1] = Math.abs(FX);
+			FScale_changed[2] = Math.abs(FX);
+
+			FPos_changed[0] = FX/2 + FInitial_posX;
+
+			if (FX < 0) {
+				FOrientation_changed[0] = 0;
+				FOrientation_changed[1] = 0;
+				FOrientation_changed[2] = 1;
+				FOrientation_changed[3] = 1.57;
+			}
+			else{
+				FOrientation_changed[3] = -1.57;
+			}
+
+			if (Math.abs(FX) > 2) {
+				if (FX > 2) {
+					Body_accX = (FX - 2) / Body_mass;
+				}
+				else{
+					Body_accX = (FX + 2) / Body_mass;
+				}
+				Body_NewVX = Body_OldVX + Body_accX * dt;
+				BodyX = BodyX - BodyX0 + 0.5 * (Body_NewVX - Body_OldVX) * dt;
+				Body_OldVX = Body_NewVX;
+				BodyPos_changed[0] = BodyX;
+			}
+
+			FfX = -FX / 4;
+			if (FfX > .5){
+				FfX = .5;
+			}
+			if (FfX < -.5){
+				FfX = -.5;
+			}
+			FCMagnitude = Math.sqrt(FfX * FfX + 1);
+			Phi = -Math.asin(FfX / FCMagnitude);
+			FCRotation_changed[0] = 0;
+			FCRotation_changed[1] = 0;
+			FCRotation_changed[2] = 1;
+			FCRotation_changed[3] = Phi;
+			FCScale_changed[2] = FCMagnitude; 
+			FCPos_changed[0] = FfX / 2;
+
+//			Display_changed[0] = '' + Phi;
+		}
+
+		function process(pt, ts){
+			PullNewX = pt[1];
+			FX = 0.1 * (PullNewX - PullOldX);
+		
+			update();								    
+		}
+
+		function isPull(ps, ts){
+			if (!ps) {
+				PullOldX = PullNewX;
+				FX = 0;
+				Body_OldVX = 0;
+				update();
+			}
+		}
+
+		function time_process (tt, ts) {
+			t += dt;
+			update();
+		}
+	"
+}
+
+ROUTE PullSensor.isActive TO Pull.isPull
+ROUTE PullSensor.translation_changed TO	Pull.process
+ROUTE Pull.FScale_changed TO F.set_scale
+ROUTE Pull.FPos_changed	TO F.set_translation
+ROUTE Pull.FOrientation_changed	TO F.set_rotation
+ROUTE Pull.Display_changed TO Display.set_string
+ROUTE Pull.BodyPos_changed TO Body.set_translation
+ROUTE Clock.fraction_changed TO Pull.time_process
+ROUTE Pull.FCRotation_changed TO FC.set_rotation
+ROUTE Pull.FCPos_changed TO	FC.set_translation

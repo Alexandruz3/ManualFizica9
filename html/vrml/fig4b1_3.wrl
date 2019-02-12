@@ -1,0 +1,93 @@
+#VRML V2.0 utf8
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO Arrow [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_arrow.wrl"
+
+
+DEF Earth Transform {
+  children [
+    Shape {
+      geometry SplineSphere {
+        radius 2
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 1 1 1
+        }
+        texture ImageTexture { url "earth6.jpg" }
+      }
+    }
+  ]
+}
+
+Shape {
+  geometry Cylinder {
+    radius .02
+    height 6
+  }
+  appearance Appearance {
+    material Material {
+
+    }
+  }
+}
+
+DEF Spin Transform {
+  translation 0 2.5 0
+  rotation 1 0 0 -1.57
+  children [
+    Transform {
+      rotation 0 0 1 2.3
+      children [
+        Arc {
+          centerAt 0 0 0
+          radius 1
+          startAt 0
+          angle 270
+        }
+        Transform {
+          translation 0 -1 0
+          rotation 0 0 1 -1.57
+          children [
+            Arrow {
+              arrowLenght .3
+              arrowAngle .5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+DEF Timer TimeSensor {
+  cycleInterval 12
+  loop TRUE
+}
+
+DEF OI OrientationInterpolator {
+  key [
+    0 .5 1
+  ]
+  keyValue [
+    0 1 0 0 
+    0 1 0 3.14
+    0 1 0 6.28
+  ]
+}
+
+ROUTE Timer.fraction_changed TO OI.set_fraction
+ROUTE OI.value_changed TO Earth.rotation

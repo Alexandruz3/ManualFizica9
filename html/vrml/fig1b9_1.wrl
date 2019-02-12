@@ -1,0 +1,65 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Fiber [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat diameter
+  field SFFloat startAt
+  field SFFloat angle
+  field SFNode  app
+  field SFInt32 fiberResolution
+  field SFInt32 sectionResolution
+]"p_fiber.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO SqSheet [
+	field SFInt32 nx
+	field SFInt32 ny
+	field SFFloat d
+  field SFColor color
+]"p_sqs.wrl"
+
+Viewpoint {
+  position 0 0 .3
+}
+
+Fiber {
+  fiberResolution 40
+  sectionResolution 40
+  angle 110
+}
+
+Ray {
+  Position .1 -.05 0
+  Direction 0 .0812 0
+  HeadPos .03
+}
+
+Ray {
+  Position .1 .03 0
+  Direction -.047 .06 0
+}
+
+Ray {
+  Position .053 .09 0
+  Direction -.053 .015 0
+  HeadPos .03
+}
+
+Ray {
+  Position 0 .105 0
+  Direction -.082 -.022 0
+  HeadPos .06
+}

@@ -1,0 +1,61 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO SDLens [
+#  field SFVec3f position
+#  field SFFloat arrowAngle
+#  field SFFloat arrowLenght
+#  field SFColor color
+#  field SFFloat apperture
+#]"p_sdlens.wrl"
+
+PROTO SDLens [
+  field SFVec3f position 0 0 0
+  field SFFloat arrowAngle .4
+  field SFFloat arrowLenght .01
+  field SFColor color 0 0 0
+  field SFFloat apperture .1
+]
+{
+  Shape {
+    geometry DEF geom IndexedLineSet {
+      coord Coordinate {}
+      coordIndex [
+        0 1 -1
+        0 2 -1
+        0 3 -1 
+        1 4 -1
+        1 5 -1
+      ]
+    }
+    appearance Appearance {
+      material Material {
+        emissiveColor IS color
+      }
+    }
+  }
+
+  DEF Builder Script{
+    field SFVec3f position IS position
+    field SFFloat apperture IS apperture
+    field SFFloat arrowAngle IS arrowAngle
+    field SFFloat arrowLenght IS arrowLenght
+    field SFNode geom USE geom
+    url "javascript:
+      var points = new MFVec3f();
+      function initialize(){
+        points[0] = new SFVec3f(position.x, position.y + apperture/2, position.z);
+        points[1] = new SFVec3f(position.x, position.y - apperture/2, position.z);
+        x = arrowLenght * Math.sin(arrowAngle);
+        y = position.y + apperture/2 + arrowLenght * Math.cos(arrowAngle);
+        z = position.z;
+        points[2] = new SFVec3f(position.x + x, y, z);
+        points[3] = new SFVec3f(position.x - x, y, z);
+        y = position.y - apperture/2 - arrowLenght * Math.cos(arrowAngle);
+        points[4] = new SFVec3f(position.x + x, y, z);
+        points[5] = new SFVec3f(position.x - x, y, z);
+        geom.coord.point= points;
+      }
+    "
+  }
+}
+

@@ -1,0 +1,33 @@
+#VRML V2.0 utf8
+
+Viewpoint {
+  position 0 0 .5
+}
+
+Transform {
+  translation .1 0 0
+  scale .1 1 1
+  children Shape {
+    geometry Sphere {
+      radius .1
+    }
+    appearance Appearance {
+      material Material {
+        transparency .7
+        shininess .2
+      }
+    }
+  }
+}
+
+Transform {
+  translation -.1 0 -.15
+  children Shape {
+    geometry Box {
+      size .001 .3 .3
+    }
+    appearance Appearance {
+      material Material {}
+    }
+  }
+}

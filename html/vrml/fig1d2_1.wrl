@@ -1,0 +1,62 @@
+#VRML V2.0 utf8
+
+Viewpoint {
+  position 0 0 .3
+}
+
+Shape {
+  geometry Box {
+    size .4 .4 .001
+  }
+  appearance Appearance {
+    material Material {
+      diffuseColor .5 .5 .5
+    }
+  }
+}
+
+Transform {
+  translation 0 0 .001
+  rotation 1 0 0 1.57
+  children Shape {
+    geometry Cylinder{
+      radius .07
+      height .0001
+    }
+    appearance Appearance {
+      material Material {
+        emissiveColor 1 1 1
+      }
+    }
+  }
+}
+
+Transform {
+  translation 0 .0091 .002
+  children Shape {
+    geometry Cylinder {
+      radius .005
+      height .12
+    }
+    appearance Appearance {
+      material Material {
+        diffuseColor .1 .1 .1
+      }
+    }
+  }
+}
+
+Transform {
+  translation 0 -.055 .002
+  scale 1 .4 1
+  children Shape {
+    geometry Sphere {
+      radius .015
+    }
+    appearance Appearance {
+      material Material {
+        diffuseColor .1 .1 .1
+      }
+    }
+  }
+}

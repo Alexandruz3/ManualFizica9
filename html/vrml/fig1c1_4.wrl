@@ -1,0 +1,44 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO HSCyl [
+  field SFFloat radius
+  field SFFloat height
+  field SFInt32 resolution
+  field SFBool  outline
+  field SFColor outlineColor
+  field SFFloat angle
+]"p_hscyl.wrl"
+
+EXTERNPROTO SCyl [
+  field SFFloat radius
+  field SFFloat height
+  field SFInt32 resolution
+  field SFBool  outline
+  field SFColor outlineColor
+  field SFFloat angle
+]"p_scyl.wrl"
+
+Viewpoint {
+  position 0 0 .15
+}
+
+Transform {
+  rotation 0 0 1 -1.57
+  children [
+
+    HSCyl {
+      angle 60
+      outlineColor .7 .7 .7
+    }
+
+    Transform {
+      translation 0 .01 0
+      children [
+        SCyl{
+          angle 60
+        }
+      ]
+    }
+
+  ]
+}

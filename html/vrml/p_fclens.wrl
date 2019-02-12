@@ -1,0 +1,118 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO FCLens [
+#  field SFFloat apperture
+#  field SFInt32 resolution
+#  field SFFloat radius1
+#  field SFFloat radius2
+#  field SFFloat shiftX
+#  field SFFloat height
+#  field SFBool outline
+#  field SFColor outlineColor
+#  field SFNode app
+#]"p_fclens.wrl"
+
+
+PROTO FCLens [
+  field SFFloat apperture .1
+  field SFInt32 resolution 40
+  field SFFloat radius1 .2
+  field SFFloat radius2 -.2
+  field SFFloat shiftX 0
+  field SFFloat height .01
+  field SFBool outline TRUE
+  field SFColor outlineColor .5 .5 .5
+  field SFNode app Appearance { material Material {transparency .5 shininess .1}}
+]
+{
+
+  Group {
+    children [
+      Shape {
+        geometry DEF geom Extrusion {}
+        appearance IS app
+      }
+
+      DEF BaseOutline Shape {
+        geometry DEF outlineGeom IndexedLineSet {
+          coord Coordinate {}
+        }
+        appearance Appearance {
+          material Material {
+            emissiveColor IS outlineColor
+          }
+        }
+      }
+
+      DEF TopOutline Transform {
+        children USE BaseOutline
+      }
+    ]
+  }
+
+  DEF Builder Script {
+    field SFFloat apperture IS apperture
+    field SFInt32 resolution IS resolution
+    field SFFloat radius1 IS radius1
+    field SFFloat radius2 IS radius2
+    field SFFloat shiftX IS shiftX
+    field SFFloat height IS height
+    field SFBool outline IS outline
+    field SFColor outlineColor IS outlineColor
+    field SFNode outlineGeom USE outlineGeom
+    eventOut MFVec2f crossSection_changed
+    eventOut MFVec3f spine_changed
+    eventOut SFVec3f top_changed
+    url "javascript:
+      
+      var newCrossSection = new MFVec2f();
+      var newSpine = new MFVec3f();
+      var newPoints = new MFVec3f();
+      var newIndexes = new MFInt32();
+
+      function initialize(){       
+        r = radius1;
+        a = Math.asin(apperture / (2*r));
+        da = 2*a/resolution;
+        x = r*Math.cos(a);
+        a = Math.PI-a;
+        for (i=0; i<resolution; i++){
+          newCrossSection[i] = new SFVec2f(x+r*Math.cos(a), -r*Math.sin(a));
+          a += da;
+          newPoints[i] = new SFVec3f(x+r*Math.cos(a), -r*Math.sin(a), 0);
+          newIndexes[i] = i;
+        }
+
+        r = -radius2;
+        a = Math.asin(apperture / (2*r));
+        da = 2*a/resolution;
+        x = r*Math.cos(a);
+        a = -a;
+        for (i=resolution; i<2*resolution; i++){
+          newCrossSection[i] = new SFVec2f(-x+r*Math.cos(a), -r*Math.sin(a));
+          a += da;
+          newPoints[i] = new SFVec3f(-x+r*Math.cos(a), -r*Math.sin(a), 0);
+          newIndexes[i] = i;
+        }
+        newCrossSection[2*resolution] = new SFVec2f(-x+r*Math.cos(a), -r*Math.sin(a));
+
+        newSpine[0] = new SFVec3f(0, 0, 0);
+        newSpine[1] = new SFVec3f(0, 0, height);
+
+        crossSection_changed = newCrossSection;
+        spine_changed = newSpine;
+
+        if (outline) {
+          outlineGeom.coord.point = newPoints;
+          outlineGeom.coordIndex = newIndexes;
+          top_changed = new SFVec3f(0, 0, height); 
+        }
+
+      }
+
+    "
+    ROUTE Builder.crossSection_changed TO geom.set_crossSection
+    ROUTE Builder.spine_changed TO geom.set_spine
+    ROUTE Builder.top_changed TO TopOutline.translation
+  }
+}

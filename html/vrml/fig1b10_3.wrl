@@ -1,0 +1,81 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Prism [
+  field SFFloat A
+  field SFFloat h
+  field SFFloat H
+  field SFNode app
+  field SFBool outline
+  field SFColor outlineColor
+]"p_prism.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+Viewpoint {
+  position 0 0 .2
+}
+
+Transform {
+  translation 0 -.02 -.05
+  rotation 0 0 1 2.356
+  children [
+    Prism {
+      A 90
+      h .05
+      H .02
+    }
+
+    Ray {
+      Position .05 .025 .01
+      Direction -.05 -.05 0
+      HeadPos .02
+    }
+
+    Ray {
+      Position 0 -.025 .01
+      Direction -.05 .05 0
+      HeadPos .06
+    }
+  ]
+}
+
+Transform {
+  translation 0 0 .05
+  rotation 0 0 1 -1.57
+  children [
+    Prism {
+      A 90
+      h .05
+      H .02
+    }
+
+    Ray {
+      Position -.025 -.05 .01
+      Direction -0 .05 0
+      HeadPos .015
+    }
+
+    Ray {
+      Position -.025 0 .01
+      Direction .05 0 0
+      HeadPos .025
+    }
+
+    Ray {
+      Position .025 0 .01
+      Direction 0 -0.05 0
+      HeadPos .04
+    }
+  ]
+}

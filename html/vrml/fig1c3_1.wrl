@@ -1,0 +1,60 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO FCLens [
+  field SFFloat apperture
+  field SFInt32 resolution
+  field SFFloat radius1
+  field SFFloat radius2
+  field SFFloat shiftX
+  field SFFloat height
+  field SFBool outline
+  field SFColor outlineColor
+  field SFNode app
+]"p_fclens.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+
+Viewpoint {
+  position 0 0 .3
+}
+
+Transform {
+  children [
+Transform {
+  translation -.12 0 0
+  children FCLens {
+  height .00001
+  }
+}
+
+Transform {
+  translation -.04 0 0
+  children FCLens {
+    radius1 100
+  height .00001
+  }
+}
+
+Transform {
+  translation .04 0 0
+  children FCLens {
+    radius2 .15
+  height .00001
+  }
+}
+
+Transform {
+  translation .12 -.05 0
+  rotation 0 0 1 1.572
+  children Quota {
+  }
+}
+]
+}

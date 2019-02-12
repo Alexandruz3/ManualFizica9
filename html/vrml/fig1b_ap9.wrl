@@ -1,0 +1,149 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO Fiber [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat diameter
+  field SFFloat startAt
+  field SFFloat angle
+  field SFNode  app
+  field SFInt32 fiberResolution
+  field SFInt32 sectionResolution
+]"p_fiber.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 .3
+}
+
+Line {
+  startAt -.1 0 0
+  endAt .11 0 0
+}
+
+Fiber {
+  centerAt 0 0 0
+  radius .102
+  diameter .004
+  startAt -45
+  angle 90
+}
+
+Arc {
+  centerAt 0 0 0
+  radius .1
+  startAt -45
+  angle 90
+}
+
+Line {
+  startAt .0707 .0707 0
+  endAt .135 .0707 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt .0707 -.0707 0
+  endAt .135 -.0707 0
+  color .7 .7 .7
+}
+
+Transform {
+  translation .13 -.0707 0
+  rotation 0 0 1 1.5708
+  children [
+    Quota {
+      lenght .141
+    }
+  ]
+}
+
+Line {
+  startAt 0 0 0
+  endAt 0 -.105 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt .1 0 0
+  endAt .1 -.105 0
+  color .7 .7 .7
+}
+
+Transform {
+  translation 0 -.1 0
+  children Quota {}
+}
+
+Ray {
+  Position -.1 .0707 0
+  Direction .1707 0 0
+}
+
+Ray {
+  Position -.1 .0531 0
+  Direction .1847 0 0
+}
+
+Ray {
+  Position -.1 .0354 0
+  Direction .1935 0 0
+}
+ 
+Ray {
+  Position -.1 .0177 0
+  Direction .1984 0 0
+}
+
+Label {
+  text "R"
+  position .05 -.095 0
+} 
+
+Label {
+  text "D"
+  position .14 0 0
+}

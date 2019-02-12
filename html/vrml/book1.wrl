@@ -1,0 +1,137 @@
+#VRML V2.0 utf8
+
+Viewpoint {
+  position 0 0 .5
+  fieldOfView .66
+}
+
+DEF Book Transform {
+  children [
+    Transform {
+      rotation 1 0 0 -.4
+      children [
+        Shape {
+          geometry DEF CoverGeom IndexedFaceSet {
+            solid TRUE
+            coord Coordinate {
+              point [
+                -.100 -.135 0
+                 .100 -.135 0
+                 .100  .135 0
+                -.100  .135 0     
+              ]
+            }
+            coordIndex [
+              0 1 2 3
+            ]
+            texCoord TextureCoordinate {
+              point [
+                0 0
+                1 0
+                1 1
+                0 1
+              ]
+            }
+            texCoordIndex [
+              0 1 2 3
+            ]
+          }
+          appearance Appearance {
+            texture ImageTexture { 
+              url "cover1.jpg"
+            }
+          }
+        }
+
+        Transform {
+          translation 0 0 -.01
+          rotation 0 1 0 3.14
+          children [
+            Shape {
+              geometry USE CoverGeom 
+              appearance Appearance {
+                texture ImageTexture {
+                  url "cover4.jpg"
+                }
+              }
+            }
+          ]
+        }
+
+        Transform {
+          translation -.1 0 -.005
+          rotation 0 1 0 -1.57
+          children [
+            Shape {
+              geometry IndexedFaceSet {
+                solid TRUE
+                coord Coordinate {
+                  point [
+                    -.005 -.135 0
+                     .005 -.135 0
+                     .005  .135 0
+                    -.005  .135 0     
+                  ]
+                }
+                coordIndex [
+                  0 1 2 3
+                ]
+                texCoord TextureCoordinate {
+                  point [
+                    0 0 
+                    1 0
+                    1 1
+                    0 1
+                  ]
+                }
+                texCoordIndex [
+                  0 1 2 3
+                ]
+              }
+              appearance Appearance {
+                texture ImageTexture {
+                  url "border1.jpg"
+                }
+              }
+            }
+          ]
+        }
+
+        Transform {
+          translation 0 0 -.0046
+          children [
+            Shape {
+              geometry Box {
+                size .199 .27 .009
+              }
+              appearance Appearance {
+                material Material {
+
+                }
+              } 
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+DEF Timer TimeSensor {
+  cycleInterval 6
+  loop TRUE
+}
+
+DEF RotationInt OrientationInterpolator {
+  key [
+    0 .5 1
+  ]
+  keyValue [
+    0 1 0 0
+    0 1 0 3.14
+    0 1 0 6.28
+  ]
+}
+
+ROUTE Timer.fraction_changed TO RotationInt.set_fraction
+ROUTE RotationInt.value_changed TO Book.rotation

@@ -1,0 +1,145 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO SDLens [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat apperture
+]"p_sdlens.wrl"
+
+EXTERNPROTO Arrow [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_arrow.wrl"
+
+EXTERNPROTO DArrow [
+  field SFVec3f position
+  field SFFloat lenght
+  field SFFloat arrowLenght
+  field SFFloat arrowAngle
+  field SFColor color
+  field SFInt32 steps
+]"p_darrow.wrl"
+
+EXTERNPROTO DLine [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+  field SFInt32 steps
+]"p_dline.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO SqSheet [
+	field SFInt32 nx
+	field SFInt32 ny
+	field SFFloat d
+  field SFColor color
+]"p_sqs.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 .25
+}
+
+SqSheet {
+  nx 30
+  ny 20
+}
+
+Line {
+  startAt -.15 0 0
+  endAt .15 0 0
+  color 0 0 0
+}
+
+SDLens {}
+
+Line {
+  startAt -.05 .003 0
+  endAt -.05 -.003 0
+}
+
+Line {
+  startAt .05 .003 0
+  endAt .05 -.003 0
+}
+
+Arrow {
+  position -.1 0 0
+  lenght .04
+}
+
+DArrow {
+  position -.0333 0 0
+  lenght.0133
+  arrowLenght .004
+}
+
+DLine {
+  startAt -.0333 .0133 0
+  endAt 0 .04 0
+}
+
+Ray {
+  Position -.1 .04 0
+  Direction .1 0 0
+}
+
+Ray {
+  Position 0 .04 0
+  Direction .2 .16 0
+}
+
+Ray {
+  Position -.1 .04 0
+  Direction .3 -.12 0
+  StemColor .5 .5 .5
+  HeadColor .5 .5 .5
+}
+
+Ray {
+  Position -.1 .04 0
+  Direction .3 -.12 0
+  StemColor .5 .5 .5
+  HeadColor .5 .5 .5
+  HeadPos .15
+}
+
+Label {
+  text "A"
+  position -.1 .045 0
+}
+
+Label {
+  text "A'"
+  position -.033 .02 0
+}

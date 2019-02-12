@@ -1,0 +1,166 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO HCyl [
+  field SFFloat radius
+  field SFFloat height
+  field SFInt32 resolution
+  field SFBool  outline
+]"p_hcyl.wrl"
+
+EXTERNPROTO SqSheet [
+	field SFInt32 nx
+	field SFInt32 ny
+	field SFFloat d
+]"p_sqs.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 0.3
+}
+
+SqSheet {}
+HCyl {}
+
+DEF Rays Transform {
+  translation 0 0 0.0001
+  children [
+    DEF IRay Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            .09 -.09 0
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 0 0
+          ]
+        }
+      }
+    }
+
+    DEF I1Ray Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            .0905 -.09 0
+            0.0005 0 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 0 0
+          ]
+        }
+      }
+    }
+
+    DEF rRay Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0 0 0
+            -.05 -.05 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+
+    DEF r1Ray Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0.0005 0 0
+            -.0495 -.05 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+    DEF RRay Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0 0 0
+            -.09 0.15 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+    DEF R1Ray Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0.0005 0 0
+            -.0895 0.15 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+    Label {
+      text "S"
+      position .095 -.1 0
+    } 
+    Label {
+      text "R"
+      sub "1"
+      position -.06 -.06 0
+    } 
+    Label {
+      text "R"
+      sub "2"
+      position -.05 .1 0
+    }
+  ]
+}

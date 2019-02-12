@@ -1,0 +1,84 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO	PerfBarElem [
+#	field	SFVec3f	position
+#	field	SFFloat	width
+#	field	SFFloat	holeDiam
+#	field	SFFloat	thick
+#  field SFFloat height
+#  field SFNode  app
+#]"p_perfbarelem.wrl"
+
+PROTO	PerfBarElem [
+	field	SFVec3f	position 0 0 0
+	field	SFFloat	width .01
+	field	SFFloat	holeDiam .001
+	field	SFFloat	thick .001
+  field SFFloat height .01
+  field SFNode  app Appearance {}
+]
+{
+  Transform	{
+		translation	IS position
+		children [
+			Shape	{
+				geometry DEF Ext Extrusion {
+					crossSection []
+					spine	[]
+					creaseAngle	1
+				}
+        appearance IS app
+			}
+		]
+	}
+
+	DEF	Builder Script {
+		field	SFFloat	width IS width
+    field SFFloat height IS height
+		field	SFFloat	holeDiam IS	holeDiam
+		field	SFFloat	thick IS thick
+		eventOut MFVec2f crossSection_changed
+		eventOut MFVec3f spine_changed
+
+		url "javascript:
+			function initialize(){
+				r = holeDiam / 2;
+				l = (width - holeDiam)/2;
+				cs = new MFVec2f();
+				da = Math.PI / 8;
+
+            cs[0] = new SFVec2f(0, 0);
+            cs[1] = new SFVec2f(0, height);
+						x0 = l + r; z0 = height; a = 0.0;
+						for (i=0; i<=8; i++) {
+							x = x0 - r * Math.cos(a);
+							z = z0 - r * Math.sin(a);
+							cs[i+2] = new SFVec2f(x, z);
+							a += da;
+						}
+
+            cs[11] = new SFVec2f(width, height);
+            cs[12] = new SFVec2f(width, 0);
+
+						x0 = width - l - r; z0 = 0; a = 0.0;
+						for (i=0; i<=8; i++) {
+							x = x0 + r * Math.cos(a);
+							z = z0 + r * Math.sin(a);
+							cs[i+13] = new SFVec2f(x, z);
+							a += da;
+						}
+
+            cs[22] = cs[0];
+
+
+				crossSection_changed = cs;
+				spine_changed = new MFVec3f();
+				spine_changed[0] = new SFVec3f(0, 0, -thick / 2);
+				spine_changed[1] = new SFVec3f(0, 0, thick / 2);
+			}
+		"
+	}
+
+	ROUTE	Builder.spine_changed	TO Ext.set_spine
+	ROUTE	Builder.crossSection_changed TO	Ext.set_crossSection
+}

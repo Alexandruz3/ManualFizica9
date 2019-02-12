@@ -1,0 +1,93 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO Prism [
+#  field SFFloat A
+#  field SFFloat h
+#  field SFFloat H
+#  field SFNode app
+#  field SFBool outline
+#  field SFColor outlineColor
+#]"p_prism.wrl"
+
+PROTO Prism [
+  field SFFloat A 60
+  field SFFloat h .1
+  field SFFloat H .1
+  field SFNode app Appearance { material Material {transparency .5} }
+  field SFBool outline TRUE
+  field SFColor outlineColor .5 .5 .5
+]
+{
+
+  Group {
+    children [
+
+      DEF Prism Shape {
+        geometry DEF geom Extrusion {}
+        appearance IS app
+      }
+
+      DEF Outline Shape {
+        geometry DEF outlineGeom IndexedLineSet {
+          coord Coordinate {}
+          coordIndex [
+            0 1 2 0 -1
+            3 4 5 3 -1
+            0 3 -1
+            2 5 -1
+            1 4 -1
+          ]
+        }
+        appearance Appearance {
+          material Material {
+            emissiveColor IS outlineColor
+          }
+        }
+      }
+    ]
+  }
+
+  DEF Builder Script {
+    field SFFloat A IS A
+    field SFFloat h IS h
+    field SFFloat H IS H
+    field SFBool outline IS outline
+    field SFNode outlineGeom USE outlineGeom
+    eventOut MFVec2f crossSection_changed
+    eventOut MFVec3f spine_changed
+    url "javascript:
+
+      var newCrossSection = new MFVec2f()
+      var newSpine = new MFVec3f()
+      var newPoints = new MFVec3f()
+      var a = A * Math.PI / 360;
+
+      function initialize(){
+        newCrossSection[0] = new SFVec2f(-h*Math.tan(a), -h/2);
+        newCrossSection[1] = new SFVec2f(0, h/2);
+        newCrossSection[2] = new SFVec2f(h*Math.tan(a),-h/2);
+        newCrossSection[3] = newCrossSection[0];
+        newSpine[0] = new SFVec3f(0, 0, H);
+        newSpine[1] = new SFVec3f(0, 0, 0);
+
+        if (outline) {
+          newPoints[0] = new SFVec3f(-h*Math.tan(a), -h/2, H);
+          newPoints[1] = new SFVec3f(0, h/2, H);
+          newPoints[2] = new SFVec3f(h*Math.tan(a), -h/2, H);
+          newPoints[3] = new SFVec3f(-h*Math.tan(a), -h/2, 0);
+          newPoints[4] = new SFVec3f(0, h/2, 0);
+          newPoints[5] = new SFVec3f(h*Math.tan(a), -h/2, 0);
+          outlineGeom.coord.point = newPoints;
+        } 
+
+        crossSection_changed = newCrossSection;
+        spine_changed = newSpine;
+      }
+
+    "
+  }
+
+  ROUTE Builder.crossSection_changed TO geom.set_crossSection
+  ROUTE Builder.spine_changed TO geom.set_spine
+
+}

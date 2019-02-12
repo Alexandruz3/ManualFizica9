@@ -1,0 +1,110 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO SCyl [
+#  field SFFloat radius
+#  field SFFloat height
+#  field SFInt32 resolution
+#  field SFBool  outline
+#  field SFColor outlineColor
+#  field SFFloat angle
+#]"p_scyl.wrl"
+
+PROTO SCyl [
+  field SFFloat radius 0.05
+  field SFFloat height 0.01
+  field SFInt32 resolution 40
+  field SFBool  outline TRUE
+  field SFColor outlineColor .5 .5 .5
+  field SFFloat angle 45
+]
+{
+  
+  Group {
+    children [
+      DEF Body Shape {
+        geometry DEF extr Extrusion { 
+          creaseAngle 1
+        }
+        appearance Appearance {
+          material Material {
+            diffuseColor .5 .5 .5
+            shininess .2
+            specularColor .7 .7 .7
+            transparency 0.5
+          }
+        }
+      }
+
+      Shape {
+        geometry DEF outlineG IndexedLineSet {
+          coord Coordinate {}
+        }
+        appearance Appearance {
+          material Material {
+            emissiveColor IS outlineColor
+          }
+        }
+      }
+    ]
+  }
+
+  DEF Builder Script {
+    field SFFloat radius IS radius
+    field SFFloat height IS height
+    field SFInt32 resolution IS resolution
+    field SFBool  outline IS outline
+    field SFNode  outlineG USE outlineG
+    field SFFloat Angle IS angle
+    eventOut MFVec2f crossSection_changed
+    eventOut MFVec3f spine_changed
+    url "javascript:
+      var angle = Angle * Math.PI / 180;
+      var da = angle / resolution;
+      var a = (Math.PI - angle) / 2;
+      var crossS = new MFVec2f();
+      var newSpine = new MFVec3f();
+      var points = new MFVec3f();
+      var indexes = new MFInt32();
+      function initialize(){
+        for (i=0; i<=resolution; i++){
+          crossS[i] = new SFVec2f(radius * Math.cos(a), -radius * Math.sin(a));
+          a += da;
+        } 
+        crossS[resolution + 1] = crossS[0];  
+        newSpine[0] = new SFVec3f(0, 0, 0);
+        newSpine[1] = new SFVec3f(0, 0, height);
+        crossSection_changed = crossS;
+        spine_changed = newSpine;
+
+        if (outline) {
+          var res = resolution;
+          a = (Math.PI - angle) / 2;
+          for (i=0; i<= res; i++){
+            points[i] = new SFVec3f(radius * Math.cos(a), radius * Math.sin(a), height);
+            a += da;
+            indexes[i] = i;
+          }
+          indexes[res + 1] = 0;
+          indexes[res + 2] = -1;
+          a = (Math.PI - angle) / 2;
+          for (i=0; i<= res; i++){
+            points[i+res+3] = new SFVec3f(radius * Math.cos(a), radius * Math.sin(a), 0);
+            a += da;
+            indexes[i+res+3] = i + res + 3;            
+          }
+          var Res = 2*res;
+          indexes[Res + 4] = res + 3;
+          indexes[Res + 5] = 0;
+          indexes[Res + 6] = -1;
+          indexes[Res + 7] = res;
+          indexes[Res + 8] = 2*res + 3; 
+          outlineG.coord.point= points;
+          outlineG.coordIndex = indexes;
+        }
+      }
+    "
+  }
+
+  ROUTE Builder.crossSection_changed TO extr.set_crossSection
+  ROUTE Builder.spine_changed TO extr.set_spine
+}

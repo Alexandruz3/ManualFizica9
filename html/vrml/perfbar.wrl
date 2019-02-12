@@ -1,0 +1,41 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO	PerfBarElem [
+	field	SFVec3f	position
+	field	SFFloat	width
+	field	SFFloat	holeDiam
+	field	SFFloat	thick
+  field SFFloat height
+  field SFNode  app
+]"p_perfbarelem.wrl"
+
+EXTERNPROTO XYCopy [
+	field SFInt32   xCopies
+	field	SFInt32	  yCopies
+  field	SFFloat	  xShift 
+	field SFFloat 	yShift   
+	field MFNode    children
+]"p_xycopy.wrl"
+
+XYCopy{
+	xCopies	1
+	yCopies	14
+	xShift .01
+	yShift .01
+	children PerfBarElem {
+    width .02
+    height .01
+    holeDiam .003
+    thick .003
+    app Appearance {
+      material Material {
+
+      }
+    }
+  }
+}
+
+Viewpoint	{
+	position 0 0 1
+}
+

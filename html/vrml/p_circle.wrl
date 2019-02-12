@@ -1,0 +1,38 @@
+#VRML V2.0 utf8
+
+PROTO Circle [
+  field SFFloat radius .1
+  field SFInt32 resolution 100
+  field SFColor color 0 0 0
+]
+{
+  Shape {
+    geometry DEF circleG IndexedLineSet {
+      coord Coordinate {}
+    }
+    appearance DEF circleA Appearance {
+      material Material {
+        emissiveColor IS color
+      }
+    }
+  }
+
+  DEF Builder Script {
+    field SFFloat radius IS radius
+    field SFInt32 resolution IS resolution
+    field SFNode circleG USE circleG
+    url "javascript:
+      var da = 2 * Math.PI / resolution;
+      var points = new MFVec3f();
+      var indexes = new MFInt32();
+      function initialize(){
+        for (i=0; i<= resolution; i++){
+          points[i] = new SFVec3f(radius * Math.cos(i*da), radius * Math.sin(i*da), 0);
+          indexes[i] = i;
+        }
+        circleG.coord.point = points;
+        circleG.set_coordIndex = indexes;
+      }
+    "
+  }
+}

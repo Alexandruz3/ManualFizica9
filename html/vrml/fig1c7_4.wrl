@@ -1,0 +1,190 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO SCLens [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat apperture
+]"p_sclens.wrl"
+
+EXTERNPROTO Arrow [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_arrow.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 .35
+}
+
+Transform {
+  translation -.2 0 0
+  rotation 0 0 1 -1.5708
+  children [
+    Arrow {
+      position 0 0 0
+      lenght .4
+    }
+  ]
+}
+
+SCLens {
+  position -.05 0 0
+}
+
+SCLens {
+  position .05 0 0
+}
+
+Transform {
+  translation -.15 0 0
+  children DEF dot Shape {
+    geometry Sphere { radius .0015 }
+    appearance Appearance {
+      material Material {
+        diffuseColor 0 0 0
+      }
+    }
+  }
+}
+
+Transform {
+  translation .01 0 0
+  children USE dot
+}
+
+Transform {
+  translation .17 0 0
+  children USE dot
+}
+
+Line {
+  startAt -.15 0 0
+  endAt -.15 -.035 0
+}
+
+Line {
+  startAt .01 0 0
+  endAt .01 -.035 0
+}
+
+Line {
+  startAt .17 0 0
+  endAt .17 -.035 0
+}
+
+Quota {
+  startAt -.15 -.03 0
+  lenght .1
+}
+
+Quota {
+  startAt -.05 -.03 0
+  lenght .06
+}
+
+Quota {
+  startAt .01 -.03 0
+  lenght .04
+}
+
+Quota {
+  startAt .05 -.03 0
+  lenght .12
+}
+
+Line {
+  startAt -.05 -.05 0
+  endAt -.05 -.065 0
+}
+
+Line {
+  startAt .05 -.05 0
+  endAt .05 -.065 0
+}
+
+Quota {
+  startAt -.05 -.06 0
+  lenght .1
+}
+
+Label {
+  text "P"
+  position -.15 .003 0
+}
+
+Label {
+  text "-x"
+  sub "o"
+  position -.1 -.023 0
+}
+
+Label {
+  text "  x'"
+  sub "i"
+  position -.02 -.023 0
+}
+
+Label {
+  text " -x'"
+  sub "o"
+  position .025 -.023 0
+}
+
+Label {
+  text " x"
+  sub "i"
+  position .1 -.023 0
+}
+
+Label {
+  text "d"
+  position 0 -.058 0
+}
+
+Label {
+  text "L"
+  sub "1"
+  position -.04 .04 0
+}
+
+Label {
+  text "L"
+  sub "2"
+  position .06 .04 0
+}
+
+Label {
+  text "P'"
+  position .01 .003 0
+}
+
+Label {
+  text "P\""
+  position .17 .003 0
+}

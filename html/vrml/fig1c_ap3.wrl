@@ -1,0 +1,269 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+  field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+Viewpoint {
+  position 0 0 2
+  fieldOfView .3
+}
+
+PointLight {
+  location 0 0 0
+}
+
+Transform {
+  translation -.25 .15 0
+  children [
+    DEF c Transform {
+      rotation 0 0 1 1.57
+      children [
+        Shape {
+          geometry Cylinder {
+            radius .05
+            height .2
+          }
+          appearance Appearance {
+            material Material {
+              diffuseColor .8 .8 .8
+              shininess .1
+            }
+          }
+        }
+      ]
+    }
+    Ray {
+      Position -.2 .04 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.2 -.04 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.2 -.04 0
+      Direction .1 0 0
+      HeadPos .06
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 0 0
+      Direction .1 .04 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 0 0
+      Direction .1 .04 0
+      HeadPos .06
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 0 0
+      Direction .1 -.04 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+  ]
+}
+
+Transform {
+  translation .25 .15 0
+  children [
+    Transform { children USE c }
+    Ray {
+      Position -.2 .04 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.2 -.04 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.2 -.04 0
+      Direction .1 0 0
+      HeadPos .06
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.1 0 0
+      Direction .3 .06 0
+      HeadPos .25
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.1 0 0
+      Direction .3 -.06 0
+      HeadPos .25
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.1 0 0
+      Direction .3 -.06 0
+      HeadPos .26
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+  ]
+}
+
+Transform {
+  translation -.25 -.15 0
+  children [
+    Transform { children USE c }
+    Ray {
+      Position -.2 .04 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.2 -.04 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.2 -.04 0
+      Direction .1 0 0
+      HeadPos .06
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 .02 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 .02 0
+      Direction .1 0 0
+      HeadPos .06
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 -.02 0
+      Direction .1 0 0
+      HeadPos .05
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+  ]
+}
+
+Transform {
+  translation .25 -.15 0
+  children [
+    Transform { children USE c }
+    Ray {
+      Position -.2 .04 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.2 -.04 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position -.2 -.04 0
+      Direction .1 0 0
+      HeadPos .06
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 .02 0
+      Direction .1 0 0
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 -.02 0
+      Direction .1 0 0
+      HeadPos .05
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+
+    Ray {
+      Position .1 -.02 0
+      Direction .1 0 0
+      HeadPos .06
+      StemRadius .0015
+      HeadRadius .006
+      HeadSize .015
+    }
+  ]
+}

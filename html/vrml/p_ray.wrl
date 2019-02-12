@@ -1,0 +1,124 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO Ray [
+#	eventIn	SFVec3f	set_Position
+#	eventIn	SFVec3f	set_Direction
+#	field SFVec3f Position
+#	field SFVec3f Direction
+#	field SFFloat StemRadius
+# field SFFloat HeadPos
+#	field SFFloat HeadRadius
+#	field SFFloat HeadSize
+#	field SFColor HeadColor
+#	field	SFColor	StemColor
+#]"p_ray.wrl"
+
+
+PROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position 0 0 0
+	field SFVec3f Direction 0 .1 0
+	field SFFloat StemRadius 0.0005
+  field SFFloat HeadPos .05
+	field SFFloat HeadRadius 0.003
+	field SFFloat HeadSize 0.012
+	field SFColor HeadColor 1 0 0
+	field	SFColor	StemColor 1 0 0
+	]
+{
+  DEF BasePoint Transform {
+   translation IS Position
+   children [
+
+	DEF Stem Transform { # stem
+    		children[
+		Shape{
+			geometry Cylinder {	height 0.5
+						radius IS StemRadius 
+						top FALSE bottom FALSE}
+			appearance Appearance {
+				material Material {diffuseColor IS StemColor }}
+			}
+		]
+	}
+
+	DEF Head Transform { # arrowhead
+    		children[
+		Shape{
+			geometry Cone	 {	height IS HeadSize
+						bottomRadius IS HeadRadius }
+			appearance Appearance {
+				material Material {diffuseColor IS HeadColor }}
+			}
+		]	
+	}
+   ]
+  }
+  DEF Build Script {
+		eventIn	 SFVec3f	set_Position IS	set_Position
+		eventIn	 SFVec3f	set_Direction IS set_Direction
+		field    SFVec3f	set_direction IS Direction
+    field    SFFloat  headPos IS HeadPos
+		field    SFFloat	set_headsize IS HeadSize
+		eventOut SFRotation rotation_changed
+		eventOut SFVec3f stemcenter_changed
+		eventOut SFVec3f stemscale_changed
+		eventOut SFVec3f headcenter_changed
+		eventOut SFVec3f position_changed
+	url "javascript:
+	function initialize(){
+		update();
+	}
+		function update()
+		{
+			phi=0.0;cosphi=0.0;sinphi=0.0;
+			nx=0.0;ny=0.0;nz=0.0;
+
+			magnitude=Math.sqrt(
+				  set_direction[0]*set_direction[0]+
+				  set_direction[1]*set_direction[1]+
+				  set_direction[2]*set_direction[2]);
+
+			if (magnitude > 0) {
+				cosphi = set_direction[1] / magnitude;
+			        nx = set_direction[2] / magnitude;
+			        ny = 0.0 / magnitude;
+				nz = -set_direction[0] / magnitude;
+			        sinphi = Math.sqrt(nx * nx + nz * nz);
+			}
+
+			if (cosphi != 0) { phi = Math.atan(sinphi / cosphi);}
+ 			else { phi = Math.PI / 2.0;}
+
+			if (cosphi < 0) { phi += Math.PI;}
+
+			if (sinphi == 0) { nx = 1; } 
+			else {nx /= sinphi; nz /= sinphi;}
+
+			rotation_changed = new SFRotation(nx, ny, nz, phi);
+
+			stemcenter_changed = new SFVec3f(0, (magnitude)/2, 0)
+
+			stemscale_changed = new SFVec3f(1.0, 2.0*(magnitude), 1.0);
+
+			headcenter_changed = new SFVec3f(0, headPos, 0);
+		}
+
+		function set_Position(newPosition){
+			position_changed = newPosition;
+		}
+
+		function set_Direction(newDirection){
+			set_direction = newDirection;
+			update();
+		}
+	"
+  }
+
+	ROUTE Build.rotation_changed TO BasePoint.rotation
+	ROUTE Build.stemcenter_changed TO Stem.translation
+	ROUTE Build.stemscale_changed TO Stem.scale
+	ROUTE Build.headcenter_changed TO Head.translation
+	ROUTE	Build.position_changed TO	BasePoint.translation
+}

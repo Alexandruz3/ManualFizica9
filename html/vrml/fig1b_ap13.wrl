@@ -1,0 +1,55 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO HCyl [
+  field SFFloat radius
+  field SFFloat height
+  field SFInt32 resolution
+  field SFBool  outline
+]"p_hcyl.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+Viewpoint {
+  position 0 0 .2
+}
+
+Transform {
+  rotation 1 0 0 3.14
+  children HCyl { height .02}
+}
+
+Transform {
+  translation 0 .01 -.01
+  children Shape {
+    geometry Box { size .1 .02 .02 }
+    appearance Appearance {
+      material Material {
+        diffuseColor .5 .5 .5
+        transparency .5
+      }
+    }
+  }
+}
+
+Ray {
+  Position -.07 -.07 -.01
+  Direction .07 .07 0
+  HeadPos .03
+}
+
+Ray {
+  Position 0 0 -.01
+  Direction .07 -.07 0
+  HeadPos .07
+}

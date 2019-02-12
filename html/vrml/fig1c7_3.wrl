@@ -1,0 +1,206 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO SCLens [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat apperture
+]"p_sclens.wrl"
+
+EXTERNPROTO Arrow [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_arrow.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 .35
+}
+
+Line {
+  startAt -.2 0 0 
+  endAt .2 0 0
+}
+
+SCLens {
+  position 0 0 0
+  apperture .23
+}
+
+Line {
+  startAt .1 .005 0
+  endAt .1 -.005 0
+}
+
+Transform {
+  translation .82 0 0
+  children [
+
+    Arrow {
+      position -1 0 0
+      lenght .1
+    }
+
+    Ray {
+      Position -1 .1 0
+      Direction .18 0 0
+    }
+
+    Ray {
+      Position -1 .1 0
+      Direction .18 0 0
+      HeadPos .14
+    }
+ 
+    Ray {
+      Position -1 .1 0
+      Direction .08 -.008 0
+      StemColor .5 .5 .5
+      HeadColor .5 .5 .5
+    }
+
+    Ray {
+      Position .15 0 0
+      Direction .06 -.02 0
+      StemColor .5 .5 .5
+      HeadColor .5 .5 .5
+      HeadPos .017
+    }
+  ]
+}
+
+Ray {
+  Position 0 .1 0
+  Direction .2 -.2 0
+}
+
+Ray {
+  Position -.1 .01 0
+  Direction .1 -.01 0
+  StemColor .5 .5 .5
+  HeadColor .5 .5 .5
+  HeadPos .06
+}
+
+Ray {
+  Position 0 0 0
+  Direction .2 -.02 0
+  StemColor .5 .5 .5
+  HeadColor .5 .5 .5
+  HeadPos .04
+}
+
+Transform {
+  rotation 1 0 0 3.14
+  children Arrow {
+    position .1111 0 0
+    lenght .0111
+    arrowLenght .005
+  }
+}
+
+Line {
+  startAt -.18 0 0
+  endAt -.18 -.1 0
+  color .7 .7 .7
+}
+
+Quota {
+  startAt -.18 -.095 0
+  lenght .18
+  color .7 .7 .7
+}
+
+Line {
+  startAt .1111 0 0
+  endAt .1111 -.1 0
+  color .7 .7 .7
+}
+
+Quota {
+  startAt 0 -.095 0
+  lenght .1111
+  color .7 .7 .7
+}
+
+Line {
+  startAt -.11 .11 0
+  endAt -.11 -.11 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt -.09 .11 0
+  endAt -.09 -.11 0
+  color .7 .7 .7
+}
+
+Transform {
+  translation -.1 0 0
+  children [
+    Shape {
+      geometry Box { size .019 .25 .001 }
+      appearance Appearance {}
+    }
+  ]
+}
+
+Label {
+  text "H"
+  position -.19 .04 0
+}
+
+Label {
+  text "D"
+  position -.15 -.09 0
+}
+
+Label {
+  text "≈ f"         #\226\137\136
+  sub "    ob"
+  position .05 -.087 0
+}
+
+Label {
+  text "h"
+  position .14 -.013 0
+}
+

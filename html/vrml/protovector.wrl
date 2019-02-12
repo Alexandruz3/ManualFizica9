@@ -1,0 +1,109 @@
+#VRML V2.0 utf8
+#
+# (c) 1997 Rob Salgado <salgado@physics.syr.edu>
+#
+#
+PROTO Vector [
+	eventIn	SFVec3f	update
+	field SFVec3f Direction 0 0 0
+	field SFVec3f Position 0 0 0
+	field SFFloat StemRadius 0.01
+	field SFFloat HeadRadius 0.02
+	field SFFloat HeadSize 0.1
+	field SFColor Color 1 1 1
+	]
+{
+  DEF BasePoint Transform {
+   translation IS Position
+   children [
+
+	DEF Stem Transform { # stem
+    		children[
+		Shape{
+			geometry Cylinder {	height 0.5
+						radius IS StemRadius 
+						top FALSE bottom FALSE}
+			appearance Appearance {
+				material Material {diffuseColor IS Color }}
+			}
+		]
+	}
+	
+	DEF Head Transform { # arrowhead
+    		children[
+		Shape{
+			geometry Cone	 {	height IS HeadSize
+						bottomRadius IS HeadRadius }
+			appearance Appearance {
+				material Material {diffuseColor IS Color }}
+			}
+		]	
+	}
+   ]
+  }
+  DEF Build Script {
+		field  SFVec3f	set_direction IS Direction
+		field  SFFloat	set_headsize IS HeadSize
+		eventIn	SFVec3f	update
+		eventOut SFRotation rotation_changed
+		eventOut SFVec3f stemcenter_changed
+		eventOut SFVec3f stemscale_changed
+		eventOut SFVec3f headcenter_changed
+	url "vrmlscript:
+		function update(value)
+		{
+			phi=0.0;cosphi=0.0;sinphi=0.0;
+			nx=0.0;ny=0.0;nz=0.0;
+
+			set_direction = value;
+			
+			magnitude=Math.sqrt(
+				  set_direction[0]*set_direction[0]+
+				  set_direction[1]*set_direction[1]+
+				  set_direction[2]*set_direction[2]);
+			
+			if (magnitude > 0) {
+				cosphi = set_direction[1] / magnitude;
+			        nx = set_direction[2] / magnitude;
+			        ny = 0.0 / magnitude;
+				nz = -set_direction[0] / magnitude;
+			        sinphi = Math.sqrt(nx * nx + nz * nz);
+				}
+			if (cosphi != 0) { phi = Math.atan(sinphi / cosphi);}
+ 			else { phi = Math.PI / 2.0;}
+
+			if (cosphi < 0) { phi += Math.PI;}
+
+			if (sinphi == 0) { nx = 1; } 
+			else {nx /= sinphi; nz /= sinphi;}
+			
+			rotation_changed[0]=nx;
+			rotation_changed[1]=ny;
+			rotation_changed[2]=nz;
+			rotation_changed[3]=phi;
+
+			stemcenter_changed[0]=0;
+			stemcenter_changed[1]=(magnitude-set_headsize)/2;
+			stemcenter_changed[2]=0;
+
+			stemscale_changed[0]=1.0;
+			stemscale_changed[1]=2.0*(magnitude-set_headsize);
+			stemscale_changed[2]=1.0;
+
+			headcenter_changed[0]=0;
+			headcenter_changed[1]=magnitude-set_headsize/2;
+			headcenter_changed[2]=0;
+		}
+		function initialize(){
+			update(set_direction);
+		}
+		"
+  }
+	ROUTE Build.rotation_changed TO BasePoint.rotation
+	ROUTE Build.stemcenter_changed TO Stem.translation
+	ROUTE Build.stemscale_changed TO Stem.scale
+	ROUTE Build.headcenter_changed TO Head.translation
+}
+
+
+

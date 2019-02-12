@@ -1,0 +1,66 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO Eye [
+#  field SFFloat R
+#  field SFFloat r
+#  field SFFloat a
+#  field SFFloat a1
+#  field SFInt32 resolution
+#  field SFColor color
+#]"p_eye.wrl"
+
+PROTO Eye [
+  field SFFloat R .01
+  field SFFloat r .008
+  field SFFloat a .5
+  field SFFloat a1 1
+  field SFInt32 resolution 40
+  field SFColor color 0 0 0
+]
+{
+  Shape {
+    geometry DEF geom IndexedLineSet {
+      coord Coordinate {}
+    }
+    appearance Appearance {
+      material Material {
+        emissiveColor IS color
+      }
+    }
+  }
+
+  DEF Builder Script{
+    field SFFloat R IS R
+    field SFFloat r IS r
+    field SFFloat angle IS a
+    field SFFloat angle1 IS a1
+    field SFInt32 resolution IS resolution
+    field SFNode geom USE geom
+    url "javascript:
+      var newPoints = new MFVec3f();
+      var newIndexes = new MFInt32();
+      var a = Math.PI + angle;
+      var da = 2 * (Math.PI - angle) / resolution;
+      
+      var a1 = Math.asin(R * Math.sin(angle)/r);
+      var sX = R * Math.cos(angle) - r*Math.cos(a1);
+      var da1 = 2 * a1 / resolution;
+      a1 = Math.PI - a1;
+
+      function initialize(){
+        for (i=0; i<=resolution; i++){
+          newPoints[i] = new SFVec3f(R*Math.cos(a), R*Math.sin(a), 0);
+          a += da;
+          newIndexes[i] = i;
+        }
+        for (i=resolution+1; i<=2*resolution+2; i++){
+          newPoints[i] = new SFVec3f(-sX + r*Math.cos(a1), r*Math.sin(a1), 0);
+          a1 += da1;
+          newIndexes[i] = i;
+        }
+        geom.coord.point = newPoints;
+        geom.coordIndex = newIndexes;
+      }
+    "
+  }
+}

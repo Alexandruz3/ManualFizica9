@@ -1,0 +1,180 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Transform {
+  translation 0 0 0
+  children [
+    DEF Mirror Transform {
+      translation 0 -.03 0
+      children [
+        Shape {
+          geometry Box {
+            size .6 .06 .3
+          }
+          appearance Appearance {
+            material Material {
+              transparency .5
+            }
+          }
+        }
+      ]
+    }
+
+    Ray {
+      Position -.3 .3 0
+      Direction .3 -.3 0
+      HeadPos .35
+    }
+
+    Ray {
+      Position 0 0 0
+      Direction .2 -.3 0
+      HeadPos .07
+    }
+
+    Ray {
+      Position -.3 .3 0
+      Direction .36 -.3 0
+      HeadPos .35
+      StemColor .7 .7 .7
+      HeadColor .7 .7 .7
+    }
+
+    Ray {
+      Position .06 0 0
+      Direction .15 -.3 0
+      HeadPos .04
+      StemColor .7 .7 .7
+      HeadColor .7 .7 .7
+    }
+
+    Line {
+      startAt 0 0 0
+      endAt .06 0 0
+    }
+
+    Line {
+      startAt 0 0 0
+      endAt .025 .029 0
+    }
+
+    Line {
+      startAt 0.06 0 0
+      endAt .0185 -.0277 0
+    }
+
+    Transform {
+      translation .018 .021 0
+      rotation 0 0 1 .85
+      children [
+        Line {
+          startAt 0 0 0
+          endAt 0 .01 0
+        }
+        Line {
+          startAt 0 .01 0
+          endAt .01 .01 0
+        }
+      ]
+    }
+
+    Transform {
+      translation .027 -.022 0
+      rotation 0 0 1 3.73
+      children [
+        Line {
+          startAt 0 0 0
+          endAt 0 .01 0
+        }
+        Line {
+          startAt 0 .01 0
+          endAt .01 .01 0
+        }
+      ]
+    }
+
+
+    Transform {
+      scale .8 .8 .8
+      children [
+
+        Label {
+          text "Δl"      #\206\148
+          sub "2"
+          position -.005 -.025 0
+        }
+
+        Label {
+          text "Δx"
+          position .035 .002 0
+        }
+
+        Label {
+          text "Δl"      #\206\148
+          sub "1"
+          position .065 .02 0
+        }
+
+      ]
+    }
+
+    Label {
+      text "I"
+      position -.015 -.005 0
+    }
+
+    Label {
+      text "I'"
+      position .07 -.005 0
+    }
+
+    Label {
+      text "S"
+      position -.085 .1 0
+    }
+
+    Label {
+      text "R"
+      position .085 -.1 0
+    }
+  ]
+}
+
+Viewpoint {
+  position 0 0 .3
+}

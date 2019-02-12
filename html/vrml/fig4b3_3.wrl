@@ -1,0 +1,140 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Vector [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_vector.wrl"
+
+EXTERNPROTO DLine [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+  field SFInt32 steps
+]"p_dline.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+EXTERNPROTO VectorLabel[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_vectorlabel.wrl"
+
+Viewpoint {
+  position 0 0 3
+  fieldOfView .3
+}
+
+DEF Gyro Transform {
+  children [
+    DEF Wheel Transform {
+      rotation 0 0 1 1.57
+      children [
+        Shape {
+          geometry Cylinder {
+            radius .3
+            height .05
+          }
+          appearance Appearance {
+            material Material {
+              transparency .5
+            }
+          }
+        }
+        Shape {
+          geometry Cylinder {
+            radius .01
+            height .6
+          }
+          appearance Appearance {
+            material Material {
+              transparency .5
+            }
+          }
+        }
+      ]
+    }
+    DEF Whire Transform {
+      translation .25 .3 0 
+      children [
+        Shape {
+          geometry Cylinder {
+            radius .002
+            height .6
+          }
+          appearance Appearance {
+            material Material {
+              diffuseColor 0 0 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+
+DEF L1 Vector {
+  Position 0 0 0
+  Direction -.5 0 0
+  StemRadius .004
+  HeadRadius .012
+  HeadSize .05
+}
+
+DEF dL Vector {
+  Position 0 0 0
+  Direction 0 0 .1
+  StemRadius .004
+  HeadRadius .012
+  HeadSize .05
+}
+
+DLine {
+  startAt -.5 0 0
+  endAt -.5 0 .1
+  steps 5
+}
+
+DLine {
+  startAt -.5 0 .1
+  endAt 0 0 .1
+}
+
+DEF L2 Vector {
+  Position 0 0 0
+  Direction -.5 0 .1
+  StemRadius .004
+  HeadRadius .012
+  HeadSize .05
+  HeadColor .5 .5 .5
+  StemColor .5 .5 .5
+}
+
+Transform {
+  scale 4 4 4
+  children [
+    VectorLabel {
+      text "L"
+      position -.1 .005 0
+    }
+    VectorLabel {
+      text "ΔL"
+      position .01 .005 .03
+    }
+  ]
+}

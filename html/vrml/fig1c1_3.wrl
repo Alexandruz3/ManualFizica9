@@ -1,0 +1,103 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 .3
+}
+
+Line {
+  startAt -.2 0 0
+  endAt .2 0 0
+}
+
+Ray {
+  Position -.17 0 0
+  Direction .16 .002 0
+  HeadPos -1
+}
+
+Ray {
+  Position -.17 0 0
+  Direction .16 -.002 0
+  HeadPos -1
+}
+
+Ray {
+  Position .01 .02 0
+  Direction .16 .002 0
+  HeadPos .085
+}
+
+Ray {
+  Position .01 -.02 0
+  Direction .16 -.002 0
+  HeadPos .085
+}
+
+Quota {
+  startAt -.17 -.05 0
+  lenght .34
+}
+
+Line {
+  startAt -.17 .025 0
+  endAt -.17 -.055 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt .17 .025 0
+  endAt .17 -.055 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt -.01 .025 0
+  endAt -.01 -.055 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt .01 .025 0
+  endAt .01 -.055 0
+  color .7 .7 .7
+}
+
+Label {
+  text "distanţă mare"   #\197\163\196\131
+  position 0 -.047 0
+}

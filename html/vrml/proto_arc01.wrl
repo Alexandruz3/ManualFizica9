@@ -1,0 +1,45 @@
+#VRML V2.0 utf8
+
+PROTO	Arc [
+	field	SFFloat	radius 1.0
+	field	SFColor	color 0 0 0
+	field	SFInt32	resolution 40
+	field	SFFloat	angle 0.5
+]
+{
+  DEF	ArcShape Shape {
+		geometry DEF ArcGeometry IndexedLineSet {
+			coord	Coordinate {}
+		}
+		appearance Appearance	{
+			material DEF ArcMaterial Material	{
+				emissiveColor	IS color
+			}
+		}
+	}
+
+	DEF	Builder Script {
+		field	SFNode ArcGeometry USE	ArcGeometry
+		field	SFFloat	radius IS	radius
+		field	SFInt32	resolution IS	resolution
+		field	SFFloat	angle IS angle
+		url "javascript:
+
+			function initialize(){
+				changeGeometry();
+			}
+
+			function changeGeometry(){
+				var r = radius;
+				var res = resolution;
+				for (var i = 0; i<res; i++){
+					var a = i * angle / res;
+					ArcGeometry.coord.point[i] = new SFVec3f(r * Math.cos(a), r * Math.sin(a), 0);
+					ArcGeometry.coordIndex[i] = i;
+				}
+			}
+
+		"
+	}
+}
+

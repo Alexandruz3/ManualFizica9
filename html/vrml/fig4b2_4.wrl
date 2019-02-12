@@ -1,0 +1,132 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO	PerfBarElem [
+	field	SFVec3f	position
+	field	SFFloat	width
+	field	SFFloat	holeDiam
+	field	SFFloat	thick
+  field SFFloat height
+  field SFNode  app
+]"p_perfbarelem.wrl"
+
+EXTERNPROTO XYCopy [
+	field SFInt32   xCopies
+	field	SFInt32	  yCopies
+  field	SFFloat	  xShift 
+	field SFFloat 	yShift   
+	field MFNode    children
+]"p_xycopy.wrl"
+
+EXTERNPROTO Vector [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_vector.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+EXTERNPROTO VectorLabel[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_vectorlabel.wrl"
+
+Viewpoint {
+  position 0 -.11 1
+  fieldOfView .3
+}
+
+DEF Bar Transform {
+  children [
+    XYCopy {
+      xCopies 1
+      yCopies 11
+      xShift 0
+      yShift .02
+      children [
+        PerfBarElem {
+          position -.01 .01 0
+          width .02
+          height .01
+          thick .003
+          holeDiam .003
+          app Appearance {
+            material Material {
+              diffuseColor .5 .5 .5
+            }
+          }
+        }
+      ]
+    }
+    XYCopy {
+      xCopies 1
+      yCopies 11
+      xShift 0
+      yShift .02
+      children [
+        PerfBarElem {
+          position -.01 0 0
+          width .02
+          height .01
+          thick .003
+          holeDiam .003
+          app Appearance {
+            material Material {
+              diffuseColor .7 .7 .7
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+
+DEF Axle Transform {
+  rotation 1 0 0 1.57
+  children [
+    Shape {
+      geometry Cylinder {
+        radius .0014
+        height .1
+      }
+      appearance Appearance {
+        material Material {
+
+        }
+      }
+    }
+  ]
+}
+
+DEF F Vector {
+  Position 0 -.2 0
+  Direction .1 -.05 0
+  StemRadius .002
+  HeadRadius .006
+  HeadSize .03
+}
+
+Label {
+  text "O"
+  position -.01 -.01 .01
+}
+
+VectorLabel {
+  text "F"
+  position .05 -.215 0
+}
+

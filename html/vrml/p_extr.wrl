@@ -1,0 +1,75 @@
+#VRML V2.0 utf8
+
+Shape {
+  geometry DEF geom Extrusion {}
+  appearance Appearance {
+    material Material {
+      transparency .5
+    }
+  }
+}
+
+DEF Builder Script {
+  field SFNode geom USE geom
+  eventOut MFVec2f cS_changed
+  eventOut MFVec3f spine_changed
+  url "javascript:
+
+    var newCS = new MFVec2f();
+    var newSpine = new MFVec3f();
+    var da = 2 * Math.PI / 100;
+    var a = -Math.PI / 4;
+    var r = 2;
+
+    for (i=0; i<=25; i++){
+      newCS[i] = new SFVec2f(-1.42+r*Math.cos(a), -r*Math.sin(a));
+      a += da;
+    }
+
+    newSpine[0] = new SFVec3f(0, 0, 0);
+    newSpine[1] = new SFVec3f(0, 0, .5);
+
+    cS_changed = newCS;
+    spine_changed = newSpine;
+  "
+
+  ROUTE Builder.cS_changed TO geom.set_crossSection
+  ROUTE Builder.spine_changed TO geom.set_spine
+}
+
+Shape {
+  geometry DEF geom1 Extrusion {}
+  appearance Appearance {
+    material Material {
+      transparency .5
+    }
+  }
+}
+
+DEF Builder1 Script {
+  field SFNode geom USE geom1
+  eventOut MFVec2f cS_changed
+  eventOut MFVec3f spine_changed
+  url "javascript:
+
+    var newCS = new MFVec2f();
+    var newSpine = new MFVec3f();
+    var da = 2 * Math.PI / 100;
+    var a = 3*Math.PI / 4;
+    var r = 2;
+
+    for (i=0; i<=25; i++){
+      newCS[i] = new SFVec2f(1.42+r*Math.cos(a), -r*Math.sin(a));
+      a += da;
+    }
+
+    newSpine[0] = new SFVec3f(0, 0, 0);
+    newSpine[1] = new SFVec3f(0, 0, .5);
+
+    cS_changed = newCS;
+    spine_changed = newSpine;
+  "
+
+  ROUTE Builder1.cS_changed TO geom1.set_crossSection
+  ROUTE Builder1.spine_changed TO geom1.set_spine
+}

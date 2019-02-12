@@ -1,0 +1,154 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+
+Transform {
+  translation 0 0 0
+  children [
+    Shape {
+      geometry Box {
+        size .15 .001 .1
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor .5 .5 .5
+          shininess .2
+          specularColor .7 .7 .7
+          transparency .5
+        }
+      }
+    }
+    DEF Rays Transform {
+      translation 0 0 0.001
+      children [
+        DEF IRay Shape {
+          geometry IndexedLineSet {
+            coord Coordinate {
+              point[
+                -.0866 .05 0
+                0 0 0
+              ]
+            }
+            coordIndex [
+              0 1 -1
+            ]
+            color Color {
+              color [
+                1 0 0 
+                1 0 0
+              ]
+            }
+          }
+        }
+
+
+        DEF I1Ray Shape {
+          geometry IndexedLineSet {
+            coord Coordinate {
+              point[
+                -.0861 .05 0
+                0.0005 0 0
+              ]
+            }
+            coordIndex [
+              0 1 -1
+            ]
+            color Color {
+              color [
+                1 0 0 
+                1 0 0
+              ]
+            }
+          }
+        }
+
+        DEF rRay Shape {
+          geometry IndexedLineSet {
+            coord Coordinate {
+              point[
+                0 0 0
+                .0866 .05 0
+              ]
+            }
+            coordIndex [
+              0 1 -1
+            ]
+            color Color {
+              color [
+                1 0 0 
+                1 1 1
+              ]
+            }
+          }
+        }
+
+        DEF r1Ray Shape {
+          geometry IndexedLineSet {
+            coord Coordinate {
+              point[
+                0.0005 0 0
+                .0865 .05 0
+              ]
+            }
+            coordIndex [
+              0 1 -1
+            ]
+            color Color {
+              color [
+                1 0 0 
+                1 1 1
+              ]
+            }
+          }
+        }
+      ]
+    }
+
+    Line {
+      startAt 0 0 0
+      endAt 0 .06 0
+      color 0 0 0
+    }
+
+    Line {
+      startAt -.05 0 0
+      endAt .05 0 0
+      color 0 0 0
+    }
+
+    Arc {
+      centerAt 0 0 0
+      radius .02
+      startAt 150
+      angle 30
+    }
+
+    Arc {
+      centerAt 0 0 0
+      radius .015
+      startAt 90
+      angle -60
+    }
+
+
+  ] 
+}
+
+Viewpoint {
+  position 0 0 .2
+}
+

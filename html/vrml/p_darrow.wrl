@@ -1,0 +1,73 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO DArrow [
+#  field SFVec3f position
+#  field SFFloat lenght
+#  field SFFloat arrowLenght
+#  field SFFloat arrowAngle
+#  field SFColor color
+#  field SFInt32 steps
+#]"p_darrow.wrl"
+
+PROTO DArrow [
+  field SFVec3f position 0 0 0
+  field SFFloat lenght .05
+  field SFFloat arrowLenght .01
+  field SFFloat arrowAngle .2
+  field SFColor color 0 0 0
+  field SFInt32 steps 11
+]
+{
+  Shape {
+    geometry DEF geom IndexedLineSet {
+      coord Coordinate {}
+    }
+    appearance Appearance {
+      material Material {
+        emissiveColor IS color
+      }
+    }
+  }
+
+  DEF Builder Script {
+    field SFVec3f position IS position
+    field SFFloat lenght IS lenght
+    field SFFloat arrowLenght IS arrowLenght
+    field SFFloat arrowAngle IS arrowAngle
+    field SFInt32 steps IS steps
+    field SFNode geom USE geom
+    url "javascript:
+      var newPoints = new MFVec3f();
+      var newIndexes = new MFInt32();
+      var idx = 0;
+
+      dy = lenght / steps;
+
+      function initialize(){
+        for (i=0; i<=steps; i++){
+          newPoints[i] = new SFVec3f(position.x, position.y + i*dy, position.z);
+        }
+        for (i=0; i<steps/2; i++){
+          newIndexes[3*i] = 2*i;
+          newIndexes[3*i+1] = 2*i+1;
+          newIndexes[3*i+2] = -1;
+          idx = 3*i+2;
+        }
+
+        newPoints[steps+1] = new SFVec3f( position.x - arrowLenght * Math.sin(arrowAngle), 
+                                          position.y + lenght - arrowLenght * Math.cos(arrowAngle), 
+                                          position.z);
+        newPoints[steps+2] = new SFVec3f( position.x + arrowLenght * Math.sin(arrowAngle), 
+                                          position.y + lenght - arrowLenght * Math.cos(arrowAngle), 
+                                          position.z);
+
+        newIndexes[idx + 1] = steps+1;
+        newIndexes[idx + 2] = steps;
+        newIndexes[idx + 3] = steps+2;                                  
+                                          
+        geom.coord.point = newPoints;
+        geom.coordIndex = newIndexes;
+      }
+    "
+  }
+}

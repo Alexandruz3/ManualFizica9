@@ -1,0 +1,95 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+  field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+Transform {
+  translation -.03 0 0
+  children [
+    Ray {
+      Position -.15 0 0
+      Direction .1 0 0
+    }
+
+    Ray {
+      Position -.15 0 0
+      Direction .1 .02 0
+    }
+
+    Ray {
+      Position -.15 0 0
+      Direction .1 -.02 0
+    }
+
+    Ray {
+      Position 0 .02 0
+      Direction .2 -.04 0
+      HeadPos .025
+    }
+
+    Ray {
+      Position 0 -.02 0
+      Direction .2 .04 0
+      HeadPos .025
+    }
+
+    Ray {
+      Position 0 0 0
+      Direction .2 0 0
+      HeadPos .025
+    }
+
+    Ray {
+      Position 0 .02 0
+      Direction .2 -.04 0
+      HeadPos .175
+    }
+
+    Ray {
+      Position 0 -.02 0
+      Direction .2 .04 0
+      HeadPos .175
+    }
+
+    Ray {
+      Position 0 0 0
+      Direction .2 0 0
+      HeadPos .175
+    }
+
+    Transform {
+      translation -.025 0 0
+      rotation 0 0 1 1.57
+      children Shape {
+        geometry Cylinder {
+          radius .03
+          height .05
+        }
+        appearance Appearance {
+          material Material {}
+        }
+      }
+    }
+  ]
+}
+
+Viewpoint {
+  position 0 0 .3
+}
+

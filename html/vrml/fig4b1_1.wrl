@@ -1,0 +1,146 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO DLine [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+  field SFInt32 steps
+]"p_dline.wrl"
+
+Viewpoint {
+  position 0 0 4
+}
+
+DEF Door1 Transform {
+  center -.5 0 .003
+  rotation 0 1 0 -1.3
+  children [
+    Shape {
+      geometry Box {
+        size 1 1.8 .04
+      }
+      appearance Appearance {
+        material Material {
+          transparency .7
+        }
+      }
+    }
+    Transform {
+      translation .45 0 .05
+      children [
+        Shape {
+          geometry Sphere {
+            radius .03
+          }
+          appearance Appearance {
+            material Material {
+              transparency .5
+            }
+          }
+        }
+      ]
+    }
+    DLine {
+      startAt -.5 0 .03
+      endAt .45 0 .03
+    }
+    DLine {
+      startAt -.5 .5 .03
+      endAt 0 .5 .03
+    }
+
+  ]
+}
+
+DEF Door2 Transform {
+  center -.5 0 .003
+  rotation 0 1 0 -.3
+  children [
+    Shape {
+      geometry Box {
+        size 1 1.8 .04
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor .9 .5 .3
+        }
+      }
+    }
+    Transform {
+      translation .45 0 .05
+      children [
+        Shape {
+          geometry Sphere {
+            radius .03
+          }
+          appearance Appearance {
+            material Material {
+#              transparency .3
+            }
+          }
+        }
+      ]
+    }
+    DLine {
+      startAt -.5 0 .03
+      endAt .45 0 .03
+    }
+    DLine {
+      startAt -.5 .5 .03
+      endAt 0 .5 .03
+    }
+
+  ]
+}
+
+Transform {
+  rotation 1 0 0 1.57
+  translation -.5 0 0
+  children [
+    Arc {
+      centerAt 0 0 0
+      radius .95
+      startAt 20
+      angle 57
+    }
+  ]
+}
+
+Transform {
+  rotation 1 0 0 1.57
+  translation -.5 .5 0
+  children [
+    Arc {
+      centerAt 0 0 0
+      radius .5
+      startAt 20
+      angle 57
+    }
+  ]
+}
+
+DEF Axle Transform {
+  translation -.53 0 .03
+  children [
+    Shape {
+      geometry Cylinder {
+        radius .005
+        height 2.5
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 0
+        }
+      }
+    }
+  ]
+}

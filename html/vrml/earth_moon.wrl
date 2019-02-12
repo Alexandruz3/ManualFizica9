@@ -1,0 +1,139 @@
+#VRML V2.0 utf8
+
+#Moon
+#03.11.2002
+
+PROTO	GPS [
+  exposedField SFVec3f center 0 0 0
+	exposedField SFBool	enabled TRUE
+	eventOut SFBool	isActive
+	eventOut SFVec3f position_changed
+]
+{
+  Group	{
+	  children [
+		  DEF	P ProximitySensor	{
+			  center IS	center
+				size 500 500 500
+				enabled	IS enabled
+				isActive IS	isActive
+			}
+
+			DEF	S Script {
+			  eventIn	SFVec3f	set_position
+				field	SFNode p USE P
+				field	SFVec3f	offset 0 0 0
+				eventOut SFVec3f position_changed IS position_changed
+				url[ "javascript:
+					function inBounds(vec) {
+					  return ((Math.abs(vec.x) < p.size.x / 2) &&
+						        (Math.abs(vec.y) < p.size.y / 2) &&
+									  (Math.abs(vec.z) < p.size.z / 2));
+					}
+
+					function set_position(val) {
+					  if (!inBounds(val.subtract(offset)) ) {
+						  offset = offset.add(val);
+							p.center= val;
+						}
+						position_changed = val.add(offset);
+					}
+				"]
+			}
+		]
+	}
+	ROUTE	P.position_changed TO	S.set_position
+}
+
+Viewpoint	{
+  position 0 0 5.6
+}
+
+DEF	G GPS	{}
+
+DEF	Moon Transform {
+	translation	0 .3 -60
+	center 0 -.3 60
+  children [
+	  Shape	{
+		  geometry Sphere {
+				radius .27
+			}
+			appearance Appearance	{
+			  texture	ImageTexture { url "moon1.jpg" }
+			}
+		}
+	]
+}
+
+DEF	Earth Transform	{
+	rotation 0 1 0 0
+  translation	0 -1.1 0
+	children [
+	  Shape	{
+		  geometry Sphere	{
+			  radius 1
+			}
+			appearance Appearance	{
+			  texture	ImageTexture { url "earth6.jpg" }
+			}
+		}
+	]
+}
+
+DEF	EarthClock TimeSensor {
+  cycleInterval	10
+	loop TRUE
+}
+
+DEF	EarthSpin OrientationInterpolator	{
+  key	[0 .5 1]
+	keyValue [
+	  0 1 0 0
+		0 1 0 3.14
+		0 1 0 6.28
+	]
+}
+
+DEF	MoonClock TimeSensor {
+  cycleInterval	270
+	loop TRUE
+}
+
+DEF	MoonRev OrientationInterpolator	{
+  key	[0 .5 1]
+	keyValue [
+	  0 1 0 -1.57
+		0 1 0 1.57
+		0 1 0 4.71
+	]
+}
+
+
+DEF	S Script {
+  eventIn	SFVec3f	set_pos
+	eventIn	SFTime set_day
+	url["javascript:
+		var day = 0;
+		var d = 5.6;
+	  function set_pos(pos) {
+			d = Math.sqrt(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z);
+		  Browser.setDescription('Ziua: ' + day + '     Distanta de la Pamant (mii de km): ' + Math.round(d * 6.4));
+		}
+
+		function set_day(val) {
+		  day += 1;
+		  Browser.setDescription('Ziua: ' + day + '     Distanta de la Pamant (mii de km): ' + Math.round(d * 6.4));
+		}
+	"]
+}
+
+ROUTE	G.position_changed TO	S.set_pos
+ROUTE	EarthClock.cycleTime TO	S.set_day
+
+ROUTE	EarthClock.fraction_changed TO	EarthSpin.set_fraction
+ROUTE	EarthSpin.value_changed	TO Earth.set_rotation
+
+ROUTE	MoonClock.fraction_changed TO	MoonRev.set_fraction
+ROUTE	MoonRev.value_changed	TO Moon.set_rotation
+

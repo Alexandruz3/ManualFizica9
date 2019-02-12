@@ -1,0 +1,51 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO SqSheet [
+	field SFInt32 nx
+	field SFInt32 ny
+	field SFFloat d
+  field SFColor color
+]"p_sqs.wrl"
+
+Viewpoint {
+  position 0 0 .35
+}
+
+SqSheet {
+  nx 5
+  ny 6
+  d .02
+  color .7 .7 .7
+}
+
+Transform {
+  translation 0 0 .05
+  children [
+    Shape {
+      geometry Box {
+        size .2 .001 .1
+      }
+      appearance Appearance {
+        material Material {
+          transparency .5
+        }
+      }
+    }
+  ]
+}
+
+Transform {
+  translation 0 -.06 0.0002
+  children [
+    Shape {
+      geometry Box {
+        size .12 .08 .0005
+      }
+      appearance Appearance {
+        material Material {
+          diffuseColor .7 .7 .7
+        }
+      }
+    }
+  ]
+}

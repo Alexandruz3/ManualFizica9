@@ -1,0 +1,158 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Vector [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_vector.wrl"
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+EXTERNPROTO VectorLabel[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_vectorlabel.wrl"
+
+Viewpoint {
+  position 0 -.11 1
+  fieldOfView .3
+}
+
+
+DEF Axle Transform {
+  rotation 1 0 0 1.57
+  children [
+    Shape {
+      geometry Cylinder {
+        radius .002
+        height .001
+      }
+      appearance Appearance {
+        material Material {
+
+        }
+      }
+    }
+  ]
+}
+
+Line {
+  startAt 0 0 0
+  endAt 0 -.24 0
+  color 0 0 0
+}
+
+DEF F1 Vector {
+  Position 0 -.2 0
+  Direction .1 -.05 0
+  StemRadius .002
+  HeadRadius .006
+  HeadSize .03
+}
+
+Arc {
+  centerAt 0 0 0
+  startAt -90
+  angle 30
+  radius .2
+}
+
+Arc {
+  centerAt 0 0 0
+  startAt -90
+  angle 10
+  radius .1995
+}
+
+Line {
+  startAt 0 0 0
+  endAt .0347 -.1970 0
+  color 0 0 0
+}
+
+Arc {
+  centerAt 0 0 0
+  startAt -90
+  angle 10
+  radius .05
+}
+
+Line {
+  startAt 0 -.19 0
+  endAt .01 -.19 0
+  color 0 0 0
+}
+
+Line {
+  startAt .01 -.19 0
+  endAt .01 -.2 0
+  color 0 0 0
+}
+
+Arc {
+  startAt -90
+  angle 60
+  centerAt 0 -.2 0
+  radius .03
+}
+
+Label {
+  text "O"
+  position .01 -.005 0
+}
+
+Label {
+  text "Δφ"
+  position .022 -.052 0
+}
+
+Label {
+  text "A"
+  position -.01 -.205 0
+}
+
+Label {
+  text "r"
+  position .025 -.11 0
+}
+
+Label {
+  text "α"
+  position .02 -.235 0
+}
+
+VectorLabel {
+  text "F"
+  position .055 -.22 0
+}

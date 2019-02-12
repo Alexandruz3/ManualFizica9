@@ -1,0 +1,131 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO Fiber [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat diameter
+  field SFFloat startAt
+  field SFFloat angle
+  field SFNode  app
+  field SFInt32 fiberResolution
+  field SFInt32 sectionResolution
+]"p_fiber.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint {
+  position 0 0 .9
+}
+
+Transform {
+  translation -.5 0 0
+  children [
+
+    Line {
+      startAt -.01 0 0
+      endAt 1.01 0 0
+    }
+
+    Fiber {
+      centerAt 0 0 0
+      radius 1.008
+      diameter .016
+      startAt -5.7
+      angle 11.4
+      app Appearance {
+        material Material {
+          transparency 0
+        }
+      }
+    }
+
+#    Arc {
+#      centerAt 0 0 0
+#      radius 1
+#      startAt -5.7
+#      angle 11.4
+#    }
+
+    Line {
+      startAt 1 .1 0
+      endAt 1.035 .1 0
+      color .7 .7 .7
+    }
+
+    Line {
+      startAt 1 -.1 0
+      endAt 1.035 -.1 0
+      color .7 .7 .7
+    }
+
+    Transform {
+      translation 1.03 -.1 0
+      rotation 0 0 1 1.5708
+      children [
+        Quota {
+          lenght .2
+        }
+      ]
+    }
+
+    Line {
+      startAt 0 0 0
+      endAt 0 -.155 0
+      color .7 .7 .7
+    }
+
+    Line {
+      startAt 1 0 0
+      endAt 1 -.155 0
+      color .7 .7 .7
+    }
+
+    Transform {
+      translation 0 -.15 0
+      children Quota { lenght 1}
+    }
+
+    Label {
+      text "R"
+      position .5 -.14 0
+      size .05
+    }
+
+    Label {
+      text "D"
+      position 1.06 -.02 0 
+      size .05
+    }
+
+  ]
+}
+

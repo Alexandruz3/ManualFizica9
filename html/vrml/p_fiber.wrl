@@ -1,0 +1,70 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO Fiber [
+#  field SFVec3f centerAt
+#  field SFFloat radius
+#  field SFFloat diameter
+#  field SFFloat startAt
+#  field SFFloat angle
+#  field SFNode  app
+#  field SFInt32 fiberResolution
+#  field SFInt32 sectionResolution
+#]"p_fiber.wrl"
+
+PROTO Fiber [
+  field SFVec3f centerAt 0 0 0
+  field SFFloat radius .1
+  field SFFloat diameter .01
+  field SFFloat startAt 0
+  field SFFloat angle 90
+  field SFNode  app Appearance { material Material { transparency .5 } }
+  field SFInt32 fiberResolution 100
+  field SFInt32 sectionResolution 100
+]
+{
+
+  Shape {
+    geometry DEF fiber Extrusion {}
+    appearance IS app
+  }
+
+  DEF Builder Script {
+    field SFVec3f centerAt IS centerAt
+    field SFFloat radius IS radius
+    field SFFloat diameter IS diameter
+    field SFFloat startAt IS startAt
+    field SFFloat angle IS angle
+    field SFInt32 fiberRes IS fiberResolution
+    field SFInt32 sectionRes IS sectionResolution
+    eventOut MFVec2f crossSection_changed
+    eventOut MFVec3f spine_changed
+    url "javascript:
+      
+      var newCrossSection = new MFVec2f();
+      var newSpine = new MFVec3f();
+
+      var da = 2 * Math.PI / sectionRes;
+      var r = diameter / 2;
+
+      for (i=0; i<= sectionRes; i++) {
+        newCrossSection[i] = new SFVec2f(-r * Math.cos(i*da), r * Math.sin(i*da));
+      }
+
+      da = angle / fiberRes * Math.PI / 180;
+      var a = startAt * Math.PI / 180;
+      r = radius;
+      for (i=0; i<= fiberRes; i++) {
+        newSpine[i] = new SFVec3f(centerAt.x + r * Math.cos(a + i*da), 
+                                  centerAt.y + r * Math.sin(a + i*da), 
+                                  centerAt.z);
+      }
+
+      crossSection_changed = newCrossSection;
+      spine_changed = newSpine;
+    "
+  }
+
+  ROUTE Builder.crossSection_changed TO fiber.set_crossSection
+  ROUTE Builder.spine_changed TO fiber.set_spine
+
+}

@@ -1,0 +1,91 @@
+#VRML V2.0 utf8
+
+# Liniile de camp gravitational al Pamantului
+# 05.02.2002
+
+Viewpoint {
+	position 0 2 10
+	orientation	1 0 0 -.2
+}
+
+DirectionalLight{
+	direction 1 -1 0
+	ambientIntensity 1
+}
+
+DEF	Terra Transform{
+	children[
+		Shape{
+			appearance Appearance {
+				texture	ImageTexture { url "earth6.jpg" }
+				material Material {transparency .3}
+			}
+			geometry Sphere	{}
+		}
+		DEF	FieldLine Transform{
+			children[
+				Shape{
+					appearance DEF FLApp Appearance{
+						material Material {diffuseColor	1 0 0}
+					}
+					geometry Cylinder{
+						radius .015 height 20
+					}
+				}
+				Transform{
+					translation	0 -3 0
+					children DEF Arrow Shape{
+						appearance USE FLApp
+						geometry Cone { bottomRadius .1 height	.3 }
+					}
+				}
+				Transform{
+					translation	0 3 0
+					rotation 0 0 1 3.14
+					children USE Arrow
+				}
+			]
+		}
+		Transform {
+			rotation 0 0 1 1.57
+			children USE FieldLine
+		}
+		Transform {
+			rotation 1 0 0 1.57
+			children USE FieldLine
+		}
+		Transform {
+			rotation 1 0 -1 .79
+			children USE FieldLine
+		}
+		Transform{
+			rotation 1 0 -1 -.79
+			children USE FieldLine
+		}
+		Transform{
+			rotation 1 0 1 .79
+			children USE FieldLine
+		}
+		Transform{
+			rotation 1 0 1 -.79
+			children USE FieldLine
+		}
+	]
+}
+
+DEF	Clock TimeSensor{
+	cycleInterval 16
+	loop TRUE
+}
+
+DEF	Rotation OrientationInterpolator{
+	key	[0 .5 1]
+	keyValue [
+		0 1 0 0
+		0 1 0 3.14
+		0 1 0 6.28
+	] 		
+}
+
+ROUTE Clock.fraction_changed TO	Rotation.set_fraction
+ROUTE Rotation.value_changed TO	Terra.set_rotation

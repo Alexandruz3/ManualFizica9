@@ -1,0 +1,163 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+
+Transform {
+  translation 0 .01 0
+  children [
+    
+    Transform {
+      translation 0 0 .07
+      children [
+        DEF A Shape {
+          geometry Extrusion {
+            crossSection [
+              -.047 .107
+              .012 .132
+              .040 .056
+              .040 -.104
+              -.047 -.104
+              -.047 -.104
+              -.047 .107
+            ]
+            spine [
+              0 0 0
+              0 0 -.002
+            ]
+          }
+          appearance DEF App Appearance {
+            material Material {
+              diffuseColor .7 .7 .7
+            }
+          }
+        }
+      ]
+    }
+   
+    Transform {
+      translation 0 0 -.07
+      children USE A
+    }
+
+    Transform {
+      translation 0.040 0 0
+      children [
+        Shape {
+          geometry Box {
+            size 0.002 0.110 0.14
+          }
+          appearance USE App
+        }
+      ]
+    }
+
+    Transform {
+      translation -0.047 0.0015 0
+      children [
+        Shape {
+          geometry Box {
+            size 0.002 0.211 0.14
+          }
+          appearance USE App
+        }
+      ]
+    }
+
+    Transform {
+      translation 0.005 0.104 0
+      center 0.040 0.056 0
+      rotation 0 0 1 0.353
+      children [
+        Shape {
+          geometry Box {
+            size 0.002 0.081 0.14
+          }
+          appearance USE App
+        }
+      ]
+    }
+
+    Transform {
+      translation 0 -0.104 0
+      children [
+        Shape {
+          geometry Box {
+            size .4 .002 .3
+          }
+          appearance Appearance {
+            material Material {
+              diffuseColor .9 .9 .9
+            }
+          }
+        }
+      ]
+    }
+
+    Line {
+      startAt 0.15 -0.090 0
+      endAt   0 -0.090 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt 0.15 -0.090 0.001
+      endAt   0 -0.090 0.001
+      color 1 0 0
+    }
+
+    Transform {
+      rotation 0 0 1 1.57
+      translation 0.1 -0.090 0
+      children Shape {
+        geometry Cone {
+          bottomRadius .004
+          height .014
+        }
+        appearance DEF Red Appearance {
+          material Material {
+            diffuseColor 1 0 0
+          }
+        }
+      }
+    }
+
+    Line {
+      startAt .040 0 0
+      endAt -.060 0.247 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt .041 0 0
+      endAt -.059 0.247 0
+      color 1 0 0
+    }
+
+    Transform {
+      rotation 0 0 1 0.353
+      translation -0.025 0.160 0
+      children Shape {
+        geometry Cone {
+          bottomRadius .004
+          height .014
+        }
+        appearance USE Red
+      }
+    }
+
+  ]
+}
+
+DirectionalLight {
+  direction 0 -1 0
+  intensity .1
+}
+
+Viewpoint{
+  position 0 0 .5
+}

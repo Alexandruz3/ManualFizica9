@@ -1,0 +1,60 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO FDLens [
+  field SFFloat apperture
+  field SFInt32 resolution
+  field SFFloat radius1
+  field SFFloat radius2
+  field SFFloat shiftX
+  field SFFloat height
+  field SFBool outline
+  field SFColor outlineColor
+  field SFNode app
+]"p_fdlens.wrl"
+
+EXTERNPROTO SDLens [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat apperture
+]"p_sdlens.wrl"
+
+Viewpoint {
+  position 0 0 .3
+}
+
+Transform {
+  children [
+Transform {
+  translation -.12 0 0
+  children FDLens {
+  height .00001
+  }
+}
+
+Transform {
+  translation -.04 0 0
+  children FDLens {
+    radius1 -100
+  height .00001
+  shiftX .007
+  }
+}
+
+Transform {
+  translation .04 0 0
+  children FDLens {
+    radius2 -.5
+  height .00001
+  shiftX .005
+  }
+}
+
+Transform {
+  translation .12 0 0
+  children SDLens {
+  }
+}
+]
+}

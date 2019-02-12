@@ -1,0 +1,303 @@
+#VRML V2.0 utf8
+
+PROTO	Tree [
+	field	SFVec3f	Position 0 0 0
+	field	SFVec3f	Scale    1 1 1
+	field	SFRotation Rotation 1 0 0 0
+]
+{
+	DEF	TreeBody Transform {
+		translation	IS Position
+		scale	IS Scale
+		rotation IS	Rotation
+		children [
+			Shape	{
+				geometry IndexedFaceSet	{
+					coord	Coordinate {
+						point	[
+							-.5 0 0
+							 .5 0 0
+							 .5 1 0
+							-.5 1 0
+						]
+					}
+					coordIndex [0 1 2 3 -1]
+					solid	FALSE
+				}
+				appearance Appearance	{
+					texture	ImageTexture { url "tree.png" }
+				}
+			}
+		]
+	}
+}
+
+NavigationInfo {
+	type "NONE"
+}
+
+DEF	Axa Transform	{
+	children [
+		Shape	{
+			geometry DEF FGeom IndexedLineSet	{
+				coord	Coordinate {
+					point	[
+						-10 0 0
+						10 0 0
+						-2 -.05 0
+						-2 .05 0
+						2 -.05 0
+						2 .05 0
+					]
+				}
+				coordIndex [
+				  0 1 -1
+					2 3 -1
+					4 5 -1
+				]
+			}
+			appearance Appearance	{
+				material Material	{
+					emissiveColor	.5 .5 .5
+				}
+			}
+		}
+		DEF F1 Transform {
+			translation	-2 -.3 0.001
+			children [
+				Shape	{
+					geometry Text	{
+						string "F"
+						fontStyle	DEF LabelStyle FontStyle	{
+							size .3
+							justify	["MIDDLE" "MIDDLE"]
+							family "VERDANA"
+						}
+					}
+				}
+			]
+		}
+		DEF F2 Transform	{
+			translation	2 -.3 0.001
+			children [
+				Shape	{
+					geometry Text	{
+						string "F'"
+						fontStyle USE	LabelStyle	
+					}
+				}
+			]
+		}
+	]
+}
+
+DEF	Lentila Transform	{
+	children [
+		Shape	{
+			geometry IndexedLineSet	{
+				coord	Coordinate {
+					point	[
+						0 -1.4 0
+						0 1.4 0
+						-.04 -1.2 0
+						.04 -1.2 0
+						-.04 1.2 0
+						.04 1.2 0
+					]
+				}
+				coordIndex [
+					0 1 -1
+					2 0 3 -1
+					4 1 5 -1
+				]
+			}
+		}
+		Transform	{
+			scale	.1 1 1 
+			children Shape {
+				geometry Sphere	{ radius 1.4 }
+				appearance Appearance	{
+					material Material	{
+						diffuseColor 1 1 1
+						transparency .5
+					}
+				}
+			}
+		}
+		Transform	{
+			translation	0 -1.7 0.001
+			children [
+				Shape	{
+					geometry Text	{
+						string	"L"
+						fontStyle	USE	LabelStyle
+					}
+				}
+			]
+		}
+	]
+}
+
+DEF	Paralel Shape	{
+	geometry DEF ParalelGeom IndexedLineSet	{
+		coord	Coordinate {
+			point	[]
+		}
+		coordIndex [0 1 2 -1]
+	}
+	appearance Appearance	{
+		material Material	{
+			emissiveColor	1 0 0
+		}
+	}
+}
+
+DEF	VirtualParalel Shape	{
+	geometry DEF VirtualParalelGeom IndexedLineSet	{
+		coord	Coordinate {
+			point	[]
+		}
+		coordIndex [0 1 -1]
+	}
+	appearance Appearance	{
+		material Material	{
+			emissiveColor	.3 .3 .3
+		}
+	}
+}
+
+DEF	Central Shape	{
+	geometry DEF CentralGeom IndexedLineSet	{
+		coord	Coordinate {
+			point	[]
+		}
+		coordIndex [0 1 -1]
+	}
+	appearance Appearance	{
+		material Material	{
+			emissiveColor	0 0 1
+		}
+	}
+}
+
+DEF	VirtualCentral Shape	{
+	geometry DEF VirtualCentralGeom IndexedLineSet	{
+		coord	Coordinate {
+			point	[]
+		}
+		coordIndex [0 1 -1]
+	}
+	appearance Appearance	{
+		material Material	{
+			emissiveColor	.3 .3 .3
+		}
+	}
+}
+
+DEF	Obiect Transform {
+	children [
+		Tree {}
+
+		DEF	Senzor PlaneSensor {
+			maxPosition	-1 0
+			minPosition	-10 0
+		}
+	]
+}
+
+DEF	Imagine Transform {
+	children [
+		Tree {}
+	]
+}
+
+
+
+DEF	Constructor Script {
+	eventIn	SFVec3f	set_x1
+	
+	field	SFFloat	x1 -4
+	field	SFFloat	y1 1
+	field	SFFloat	f 2
+	field	SFNode ParalelGeom USE ParalelGeom
+	field	SFNode CentralGeom USE CentralGeom
+	field	MFNode Obiect USE	Obiect
+	field	MFNode F1 USE	F1
+	field	MFNode F2 USE	F2
+	field	SFNode FGeom USE FGeom
+	field	SFNode VirtualParalelGeom USE	VirtualParalelGeom
+	field	SFNode VirtualCentralGeom USE	VirtualCentralGeom
+	field   SFFloat x2 0.0
+	field   SFFloat y2 0.0
+	field   SFFloat beta 1.0
+
+	eventOut SFVec3f offset_changed
+	eventOut SFVec3f f1_changed
+	eventOut SFVec3f f2_changed
+	eventOut SFVec3f x1_changed
+	eventOut SFVec3f y1_changed
+	eventOut SFVec3f x2_changed
+	eventOut SFVec3f y2_changed
+	url	"javascript:
+//	  var x2 = 0.0;
+//		var y2 = 0.0;
+//		var beta = 1.0;
+
+		function initialize(){
+			update();
+			offset_changed = new SFVec3f(x1, 0, 0);
+			f1_changed = new SFVec3f(-f, -.3, .001);
+			f2_changed = new SFVec3f(f, -.3, .001);
+			FGeom.coord.point[2].x = -f;
+			FGeom.coord.point[3].x = -f;
+			FGeom.coord.point[4].x = f;
+			FGeom.coord.point[5].x = f;
+		}
+
+		function set_x1(newX1){
+			x1 = newX1.x;
+			update();
+		}
+
+		function update(){
+			x1_changed = new SFVec3f(x1, 0, 0);
+			y1_changed = new SFVec3f(y1, y1, y1);
+
+			ParalelGeom.coord.point[0] = new SFVec3f(x1, y1, 0);
+			ParalelGeom.coord.point[1] = new SFVec3f(0, y1, 0);
+			ParalelGeom.coord.point[2] = new SFVec3f(11*f, -10*y1, 0);
+
+			CentralGeom.coord.point[0] = new SFVec3f(x1, y1, 0);
+			CentralGeom.coord.point[1] = new SFVec3f(-10*x1, -10*y1, 0);
+
+			x2 = 1 / (1/x1 + 1/f);
+			x2_changed = new SFVec3f(x2, 0, 0);
+
+			beta = x2/x1;
+			y2 = y1 * beta;
+			y2_changed = new SFVec3f(y2, y2, y2);
+
+			VirtualParalelGeom.coord.point[0] = new SFVec3f(0, y1, 0);
+			VirtualParalelGeom.coord.point[1] = new SFVec3f(0, y1, 0);
+
+			VirtualCentralGeom.coord.point[0] = new SFVec3f(x1, y1, 0);
+			VirtualCentralGeom.coord.point[1] = new SFVec3f(x1, y1, 0);
+
+			if (beta > 0) {
+				VirtualParalelGeom.coord.point[1] = new SFVec3f(-9*f, 10*y1, 0);
+				VirtualCentralGeom.coord.point[1] = new SFVec3f(10*x1, 10*y1, 0);
+			}
+		}
+	"	
+}
+
+ROUTE	Constructor.x1_changed TO	Obiect.translation
+ROUTE	Constructor.offset_changed TO	Senzor.offset
+ROUTE	Constructor.y1_changed TO	Obiect.scale
+ROUTE	Constructor.x2_changed TO	Imagine.translation
+ROUTE	Constructor.y2_changed TO	Imagine.scale
+ROUTE	Constructor.f1_changed TO	F1.translation
+ROUTE	Constructor.f2_changed TO	F2.translation
+
+ROUTE	Senzor.translation_changed TO	Obiect.translation
+ROUTE	Senzor.translation_changed TO	Constructor.set_x1

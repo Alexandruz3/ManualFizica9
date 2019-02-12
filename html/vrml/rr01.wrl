@@ -1,0 +1,138 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO HCyl [
+  field SFFloat radius
+  field SFFloat height
+  field SFInt32 resolution
+  field SFBool  outline
+]"p_hcyl.wrl"
+
+EXTERNPROTO SqSheet [
+	field SFInt32 nx
+	field SFInt32 ny
+	field SFFloat d
+]"p_sqs.wrl"
+
+Viewpoint {
+  position 0 0 .5
+}
+
+HCyl {}
+SqSheet {}
+
+Transform {
+  rotation 1 0 0 -1.57
+  children [
+    DEF T3 Transform { 
+      children [
+        Transform {
+          rotation 1 0 0 1.57
+          translation 0 -.008 -.15
+          children Shape {
+            appearance DEF A1 Appearance { material Material {}}
+            geometry Cylinder { radius .008 height .05 }
+          }
+        }
+        Transform {
+          rotation 1 0 0 1.57
+          translation 0 -.013 -.14
+          children [
+            Shape {
+              geometry Sphere { radius .005 }
+              appearance Appearance { material Material {} }
+            }
+          ]
+        }
+        Transform {
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              geometry IndexedLineSet {
+                coord Coordinate {
+                  point [
+                    0 0 0
+                    0 -.123 0
+                  ]
+                }
+                coordIndex [0 1]
+              }
+              appearance Appearance {
+                material Material {
+                  emissiveColor 1 0 0
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF CS1 CylinderSensor {
+      maxAngle 1.5
+      minAngle -1.5          
+    }
+  ]
+}
+
+DEF R1 Transform {
+  center 0 0 0
+  children [
+    Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            0 -.15 0
+          ]
+        }
+        coordIndex [0 1]
+      }
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 0 0
+        }
+      }
+    }
+  ]
+}
+
+DEF R2 Transform {
+  center 0 0 0
+  children [
+    Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            0 .2 0
+          ]
+        }
+        coordIndex [0 1]
+      }
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 0 0
+        }
+      }
+    }
+  ]
+}
+
+DEF Computer Script {
+  eventIn SFRotation set_rotation
+  eventOut SFRotation r1Rot_changed
+  eventOut SFRotation r2Rot_changed
+  url "javascript: 
+    function set_rotation(newRot){
+      var angle = newRot[3];
+      r1Rot_changed = new SFRotation(0, 0, 1, angle);
+      angle = -Math.asin(Math.sin(angle)/1.5);
+      r2Rot_changed = new SFRotation(0, 0, 1, angle);
+    }
+  "
+}
+  
+ROUTE CS1.rotation_changed TO T3.rotation
+ROUTE CS1.rotation_changed TO Computer.set_rotation
+ROUTE Computer.r1Rot_changed TO R1.rotation
+ROUTE Computer.r2Rot_changed TO R2.rotation
+

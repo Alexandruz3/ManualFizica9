@@ -1,0 +1,260 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO SqSheet [
+	field SFInt32 nx
+	field SFInt32 ny
+	field SFFloat d
+  field SFColor color
+]"p_sqs.wrl"
+
+EXTERNPROTO Circle [
+  field SFFloat radius
+  field SFInt32 resolution
+  field SFColor color
+]"p_circle.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO HCyl [
+  field SFFloat radius
+  field SFFloat height
+  field SFInt32 resolution
+  field SFBool  outline
+]"p_hcyl.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint{
+  position 0 0 .3
+}
+
+SqSheet{
+  color .7 .7 .7
+}
+
+Circle{}
+
+Line {
+  startAt 0 -.12 0.001
+  endAt   0  .12 0.001
+}
+
+Line {
+  startAt -.105 0 0
+  endAt    .105 0 0
+}
+
+Shape {
+  geometry DEF geom IndexedLineSet {
+    coord Coordinate {}
+  }
+  appearance Appearance {
+    material Material {
+      emissiveColor .5 .5 .5
+    }
+  }
+}
+
+DEF Builder Script {
+  field SFNode geom USE geom
+  url "javascript:
+    var points = new MFVec3f();
+    var indexes = new MFInt32();
+    function initialize(){
+      for (i=0; i<=18; i++){
+        x = -0.09 + i*.01;
+        y = Math.sqrt(.01 - x*x);
+        points[2*i] = new SFVec3f(x, -y, 0.0001);
+        points[2*i+1] = new SFVec3f(-x, y, 0.0001);
+        indexes[3*i] = 2*i;
+        indexes[3*i+1] = 2*i+1;
+        indexes[3*i+2] = -1;
+      }
+      geom.coord.point = points;
+      geom.coordIndex = indexes;
+    }
+  "
+}
+
+HCyl {}
+
+DEF Rays Transform {
+  translation 0 0 0.001
+  children [
+    DEF IRay Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            .099 -.1 0
+            0 0 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 0 0
+          ]
+        }
+      }
+    }
+
+    DEF I1Ray Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            .0995 -.1 0
+            0.0005 0 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 0 0
+          ]
+        }
+      }
+    }
+
+    DEF rRay Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0 0 0
+            -.099 -.1 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+
+    DEF r1Ray Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0.0005 0 0
+            -.0985 -.1 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+
+    DEF RRay Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0 0 0
+            -.09 0.15 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+
+    DEF R1Ray Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0.0005 0 0
+            -.0895 0.15 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+  ]
+}
+
+Transform {
+  translation -0.0707 -0.0707 0.0011
+  children Quota {
+    lenght .0707
+  }
+}
+
+Transform {
+  translation 0 -0.0707 0.0011
+  children Quota {
+    lenght .0707
+  }
+}
+
+Transform {
+  translation -0.052 0.0854 0.0011
+  children Quota {
+    lenght .052
+  }
+}
+
+Label {
+  text "x"
+  sub "1"
+  position -.035 -.063 0
+}
+
+Label {
+  text "x"
+  sub "2"
+  position -.03 .093 0
+}
+
+Label {
+  text "x"
+  position .035 -.063 0
+}

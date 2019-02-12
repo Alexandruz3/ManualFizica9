@@ -1,0 +1,39 @@
+#VRML V2.0 utf8
+
+#PROTO	Tree [
+#	field	SFVec3f	Position 0 0 0
+#	field	SFVec3f	Scale    1 1 1
+#	field	SFRotation Rotation 1 0 0 0
+#]"proto_tree.wrl"
+
+PROTO	Tree [
+	field	SFVec3f	Position 0 0 0
+	field	SFVec3f	Scale    1 1 1
+	field	SFRotation Rotation 1 0 0 0
+]
+{
+	DEF	TreeBody Transform {
+		translation	IS Position
+		scale	IS Scale
+		rotation IS	Rotation
+		children [
+			Shape	{
+				geometry IndexedFaceSet	{
+					coord	Coordinate {
+						point	[
+							-.5 0 0
+							 .5 0 0
+							 .5 1 0
+							-.5 1 0
+						]
+					}
+					coordIndex [0 1 2 3 -1]
+					solid	FALSE
+				}
+				appearance Appearance	{
+					texture	ImageTexture { url "tree.png" }
+				}
+			}
+		]
+	}
+}

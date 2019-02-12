@@ -1,0 +1,98 @@
+#VRML V2.0 utf8
+
+PROTO FLens [
+  field SFFloat apperture .2
+  field SFInt32 resolution 40
+  field SFFloat radius1 .5
+  field SFFloat radius2 .5
+  field SFFloat shiftX 0
+  field SFFloat height .01
+  field SFBool outline TRUE
+  field SFColor outlineColor .5 .5 .5
+  field SFNode app Appearance { material Material {transparency .5}}
+]
+{
+  Shape {
+    geometry DEF geom Extrusion {}
+    appearance IS app
+  }
+
+  DEF Builder Script {
+    field SFFloat apperture IS apperture
+    field SFInt32 resolution IS resolution
+    field SFFloat radius1 IS radius1
+    field SFFloat radius2 IS radius2
+    field SFFloat shiftX IS shiftX
+    field SFFloat height IS height
+    field SFBool outline IS outline
+    field SFColor outlineColor IS outlineColor
+    eventOut MFVec2f crossSection_changed
+    eventOut MFVec3f spine_changed
+    url "javascript:
+      var a = Math.asin(apperture / (2*radius1));
+      var x1 = apperture / (2*Math.tan(a));
+      var da = 2 * a / resolution;
+
+      var newCrossSection = new MFVec2f();
+      var newSpine = new MFVec3f();
+
+      function initialize(){
+        if (x1 > 0) {
+          a = Math.PI + a;
+          for (i=0; i<=resolution; i++){
+            newCrossSection[i] = new SFVec2f(x1 - shiftX + radius1 * Math.cos(a),
+                                             radius1 * Math.sin(a));
+            a -= da;
+          }
+        }
+        else {
+          radius1 = -radius1;
+          a =  - a;
+          for (i=0; i<=resolution; i++){
+            newCrossSection[i] = new SFVec2f(x1 + shiftX + radius1 * Math.cos(a),
+                                             radius1 * Math.sin(a));
+            a += da;
+          }          
+        }
+
+        a = Math.asin(apperture / (2*radius2));
+        x1 = apperture / (2*Math.tan(a));
+        da = 2 * a / resolution;
+
+        if (x1 > 0) {
+          a = Math.PI + a;
+          for (i=resolution+1; i<=2*resolution+2; i++){
+            newCrossSection[i] = new SFVec2f(x1 - shiftX + radius2 * Math.cos(a),
+                                             radius2 * Math.sin(a));
+            a -= da;
+          }
+        }
+        else {
+          radius2 = -radius2;
+          a =  - a;
+          for (i=resolution+1; i<=2*resolution+2; i++){
+            newCrossSection[i] = new SFVec2f(x1 + shiftX + radius2 * Math.cos(a),
+                                             radius2 * Math.sin(a));
+            a += da;
+          }          
+        }
+
+        newSpine[0] = new SFVec3f(0, 0, 0);
+        newSpine[1] = new SFVec3f(0, 0, height);
+
+        crossSection_changed = newCrossSection;
+        spine_changed = newSpine;
+      }
+    "
+  }
+
+  ROUTE Builder.crossSection_changed TO geom.set_crossSection
+  ROUTE Builder.spine_changed TO geom.set_spine
+}
+
+Viewpoint {
+  position 0 0 .3
+}
+
+FLens {
+}

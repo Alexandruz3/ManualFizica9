@@ -1,0 +1,184 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO	Tube [
+	field	SFFloat	extRadius
+	field	SFFloat	intRadius
+	field	SFFloat	height
+	field	SFInt32	resolution
+	field	SFNode  app
+]"p_tube.wrl"
+
+EXTERNPROTO Circle [
+  field SFFloat radius
+  field SFInt32 resolution
+  field SFColor color
+]"p_circle.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+  field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+Transform {
+  translation 0 -.02 0
+  children [
+    DEF Glass Transform {
+      translation 0 .01 0
+      children Tube {
+        extRadius .051
+        intRadius .05
+        height .12
+        app Appearance {
+          material Material {
+            transparency .8
+            shininess 1
+          }
+        }
+      }
+    }
+
+    DEF GlassTopRim Transform {
+      translation 0 .07 0
+      rotation 1 0 0 1.57
+      children [
+        Circle {
+          radius .051
+          color .7 .7 .7
+        }
+        Circle {
+          radius .050
+          color .7 .7 .7
+        }
+      ]      
+    }
+
+    DEF GlassBottomRim Transform {
+      translation 0 -.05 0
+      rotation 1 0 0 1.57
+      children [
+        Circle {
+          radius .050
+          color .7 .7 .7
+        }
+      ]      
+    }
+
+    DEF Water Transform {
+      children Shape {
+        geometry Cylinder {
+          radius .05
+          height .1
+        }
+        appearance Appearance {
+          material Material {
+            transparency .8
+          }
+        }
+      }
+    }
+
+    DEF WaterRim Transform {
+      translation 0 .05 0
+      rotation 1 0 0 1.57
+      children [
+        Circle {
+          radius .05
+          color .7 .7 .7
+        }
+      ]
+    }
+
+    DEF Coin Transform {
+      translation 0 -.049 0
+      children [
+        Shape {
+          geometry Cylinder {
+            radius .01
+            height .002
+          }
+          appearance Appearance {
+            material Material {
+              diffuseColor .7 .7 .7
+              specularColor .9 .9 .9
+              shininess .2
+            }
+          }
+        }
+      ]
+    }
+
+    Ray {
+      Position 0 -.048 0
+      Direction -.0199 .098 0
+    }
+
+    Ray {
+      Position 0 -.048 0
+      Direction .0199 .098 0
+    }
+
+    Ray {
+      Position -.0199 .05 0
+      Direction -.014 .05 0
+      HeadPos .04
+    }
+
+    Ray {
+      Position .0199 .05 0
+      Direction .014 .05 0
+      HeadPos .04
+    }
+
+    Line {
+      endAt -.0199 .05 0
+      startAt 0 -.0281 0
+      color .7 .7 .7
+    }
+
+    Line {
+      endAt .0199 .05 0
+      startAt 0 -.0281 0
+      color .7 .7 .7
+    }
+
+    DEF CoinImage Transform {
+      translation 0 -.0282 0
+      children [
+        Shape {
+          geometry Cylinder {
+            radius .01
+            height .002
+          }
+          appearance Appearance {
+            material Material {
+              transparency .3
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+
+Viewpoint {
+  position 0 0 .3
+}
+
+DirectionalLight {
+  direction 0 -1 0
+  intensity .7
+}

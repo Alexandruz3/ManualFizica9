@@ -1,0 +1,409 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO HCyl [
+  field SFFloat radius
+  field SFFloat height
+  field SFInt32 resolution
+  field SFBool  outline
+]"p_hcyl.wrl"
+
+EXTERNPROTO SqSheet [
+	field SFInt32 nx
+	field SFInt32 ny
+	field SFFloat d
+]"p_sqs.wrl"
+
+EXTERNPROTO Circle [
+  field SFFloat radius
+  field SFInt32 resolution
+  field SFColor color
+]"p_circle.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+
+Viewpoint {
+  position 0 -.02 .35
+}
+
+HCyl {}
+SqSheet {}
+
+Circle{}
+
+Line {
+  startAt 0 -.12 0
+  endAt   0  .12 0
+}
+
+Line {
+  startAt -.105 0 0
+  endAt    .105 0 0
+}
+
+Shape {
+  geometry DEF geom IndexedLineSet {
+    coord Coordinate {}
+  }
+  appearance Appearance {
+    material Material {
+      emissiveColor 0 0 0
+    }
+  }
+}
+
+DEF Builder Script {
+  field SFNode geom USE geom
+  url "javascript:
+    var points = new MFVec3f();
+    var indexes = new MFInt32();
+    function initialize(){
+      for (i=0; i<=18; i++){
+        x = -0.09 + i*.01;
+        y = Math.sqrt(.01 - x*x);
+        points[2*i] = new SFVec3f(x, -y, 0);
+        points[2*i+1] = new SFVec3f(-x, y, 0);
+        indexes[3*i] = 2*i;
+        indexes[3*i+1] = 2*i+1;
+        indexes[3*i+2] = -1;
+      }
+      geom.coord.point = points;
+      geom.set_coordIndex = indexes;
+    }
+  "
+}
+
+Label {
+  text "x"
+  position .095 .002 0
+}
+
+Label {
+  sub "y"
+  position -.005 .125 0
+}
+
+Label {
+  text "0"
+  position 0 -.115 0
+}
+
+Label {
+  text "0"
+  position 0 .103 0
+}
+
+Label {
+  text "1"
+  position .01 -.114 0
+}
+
+Label {
+  text "2"
+  position .02 -.113 0
+}
+
+Label {
+  text "3"
+  position .03 -.111 0
+}
+
+Label {
+  text "4"
+  position .04 -.107 0
+}
+
+Label {
+  text "5"
+  position .05 -.102 0
+}
+
+Label {
+  text "6"
+  position .06 -.096 0
+}
+
+Label {
+  text "7"
+  position .07 -.088 0
+}
+
+Label {
+  text "8"
+  position .081 -.074 0
+}
+
+Label {
+  text "9"
+  position .092 -.059 0
+}
+
+Label {
+  text "1"
+  position -.01 -.114 0
+}
+
+Label {
+  text "2"
+  position -.02 -.113 0
+}
+
+Label {
+  text "3"
+  position -.03 -.111 0
+}
+
+Label {
+  text "4"
+  position -.04 -.107 0
+}
+
+Label {
+  text "5"
+  position -.05 -.102 0
+}
+
+Label {
+  text "6"
+  position -.06 -.096 0
+}
+
+Label {
+  text "7"
+  position -.07 -.088 0
+}
+
+Label {
+  text "8"
+  position -.081 -.074 0
+}
+
+Label {
+  text "9"
+  position -.092 -.059 0
+}
+
+Transform {
+  translation 0 -.01 0
+  children [
+
+	Label {
+	  text "1"
+	  position .01 .114 0
+	}
+
+	Label {
+	  text "2"
+	  position .02 .113 0
+	}
+
+	Label {
+	  text "3"
+	  position .03 .111 0
+	}
+
+	Label {
+	  text "4"
+	  position .04 .107 0
+	}
+
+	Label {
+	  text "5"
+	  position .05 .102 0
+	}
+
+	Label {
+	  text "6"
+	  position .06 .096 0
+	}
+
+	Label {
+	  text "7"
+	  position .07 .086 0
+	}
+
+	Label {
+	  text "8"
+	  position .081 .074 0
+	}
+
+	Label {
+	  text "9"
+	  position .092 .059 0
+	}
+
+	Label {
+	  text "1"
+	  position -.01 .114 0
+	}
+
+	Label {
+	  text "2"
+	  position -.02 .113 0
+	}
+
+	Label {
+	  text "3"
+	  position -.03 .111 0
+	}
+
+	Label {
+	  text "4"
+	  position -.04 .107 0
+	}
+
+	Label {
+	  text "5"
+	  position -.05 .102 0
+	}
+
+	Label {
+	  text "6"
+	  position -.06 .096 0
+	}
+
+	Label {
+	  text "7"
+	  position -.07 .086 0
+	}
+
+	Label {
+	  text "8"
+	  position -.081 .074 0
+	}
+
+	Label {
+	  text "9"
+	  position -.092 .059 0
+	}
+  ]
+}
+
+Transform {
+  rotation 1 0 0 -1.57
+  children [
+    DEF T3 Transform { 
+      children [
+        Transform {
+          rotation 1 0 0 1.57
+          translation 0 -.008 -.15
+          children Shape {
+            appearance DEF A1 Appearance { material Material {}}
+            geometry Cylinder { radius .008 height .05 }
+          }
+        }
+        Transform {
+          rotation 1 0 0 1.57
+          translation 0 -.013 -.14
+          children [
+            Shape {
+              geometry Sphere { radius .005 }
+              appearance Appearance { material Material {} }
+            }
+          ]
+        }
+        Transform {
+          rotation 1 0 0 1.57
+          children [
+            Shape {
+              geometry IndexedLineSet {
+                coord Coordinate {
+                  point [
+                    0 0 0
+                    0 -.123 0
+                  ]
+                }
+                coordIndex [0 1]
+              }
+              appearance Appearance {
+                material Material {
+                  emissiveColor 1 0 0
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF CS1 CylinderSensor {
+      maxAngle 1.5
+      minAngle -1.5          
+    }
+  ]
+}
+
+DEF R1 Transform {
+  center 0 0 0
+  children [
+    Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            0 -.15 0
+          ]
+        }
+        coordIndex [0 1]
+      }
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 0 0
+        }
+      }
+    }
+  ]
+}
+
+DEF R2 Transform {
+  center 0 0 0
+  children [
+    Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point [
+            0 0 0
+            0 .2 0
+          ]
+        }
+        coordIndex [0 1]
+      }
+      appearance Appearance {
+        material Material {
+          emissiveColor 1 0 0
+        }
+      }
+    }
+  ]
+}
+
+DEF Computer Script {
+  eventIn SFRotation set_rotation
+  eventOut SFRotation r1Rot_changed
+  eventOut SFRotation r2Rot_changed
+  url "javascript: 
+    function set_rotation(newRot){
+      var angle = newRot[3];
+      r1Rot_changed = new SFRotation(0, 0, 1, angle);
+      angle = -Math.asin(Math.sin(angle)/1.5);
+      r2Rot_changed = new SFRotation(0, 0, 1, angle);
+    }
+  "
+}
+  
+ROUTE CS1.rotation_changed TO T3.rotation
+ROUTE CS1.rotation_changed TO Computer.set_rotation
+ROUTE Computer.r1Rot_changed TO R1.rotation
+ROUTE Computer.r2Rot_changed TO R2.rotation
+

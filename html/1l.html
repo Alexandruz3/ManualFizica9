@@ -1,0 +1,180 @@
+<HTML>
+<HEAD>
+<SCRIPT LANGUAGE="JavaScript" src="code/code.js"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" src="code/dmenu.js"></SCRIPT>
+<LINK rel=stylesheet href="styles.css" type="text/css">
+
+</HEAD>
+<BODY onLoad="displayDMenu('2.6')">
+
+<H3><I>C&#259;utarea unei reguli mai profunde</I></H3>
+
+<P>&#206;ntr&minus;un mediu omogen (care are peste tot acelea&#351;i propriet&#259;&#355;i), lumina urmeaz&#259; un traseu &#238;n linie dreapt&#259; &minus; acesta este chiar traseul care
+   poate fi parcurs &#238;n timpul cel mai scurt. Orice ocol ar &#238;nsemna un timp mai lung pentru a ajunge dintr&minus;un loc &#238;n altul.
+   
+<P>Dar traseul urmat de lumina care se &#238;ndreapt&#259; c&#259;tre o suprafa&#355;&#259; &#351;i se reflect&#259;? Este oare acesta chiar traseul ce poate fi parcurs &#238;n timpul cel mai scurt?
+
+<P>Astfel de &#238;ntreb&#259;ri l&minus;au condus pe francezul Pierre Fermat, acum mai bine de trei sute de ani, la o descoperire surprinz&#259;toare.
+
+<P>&#206;n figura&nbsp;1, traseul <I>SIR</I> este cel urmat de lumin&#259;, conform legilor reflexiei.
+
+<P><DIV class=image>
+   <CENTER><IMG src="img/fig1l_1.jpg" border=0 style="cursor: hand" onClick="showImg(this.src, 
+      'Fig. 1', 
+      'Figura 1', 'Trasee posibile ale luminii care se reflect&#259;.'); return false" ><BR>
+      <B>Fig. 1. &nbsp;</B><IMG src="img/vrmla.gif" style="cursor: hand" onClick="showVrml('vrml/fig1l_1.wrl',
+                             'Fig. 1',
+                             'Figura 1', 'Trasee posibile ale luminii care se reflect&#259;.'); return false">
+   Trasee posibile ale luminii care se reflect&#259;.</CENTER>
+</DIV>
+
+<P>Parcurgerea traseului vecin <I>SI'R</I> ar necesita un timp mai lung pe por&#355;iunea <I>SI'</I> (mai lung&#259; dec&#226;t <I>SI</I>), dar un timp mai scurt pe 
+   por&#355;iunea <I>I'R</I> (mai scurt&#259; dec&#226;t <I>IR</I>).
+
+<P><DIV class=challange>
+  <IMG src="img/challange.jpg">&nbsp;<B>Provocarea&nbsp;1</B>
+  <P>Parcurgerea de c&#259;tre lumin&#259; a traseului <I>SI'R</I> necesit&#259; oare un timp <I>total</I> mai lung sau mai scurt dec&#226;t traseul care respect&#259; a doua lege a
+     reflexiei?
+</DIV>
+
+<P>&#206;n figura&nbsp;2 este reprezentat un detaliu al zonei de inciden&#355;&#259;. La aceast&#259; scar&#259; a desenului, punctul <I>S</I> este foarte departe, &#238;n st&#226;nga&minus;sus
+   &#351;i a fost decupat&#259; o mare parte din triunghiul <I>SII'</I>.
+   
+<P><DIV class=image>
+   <CENTER><IMG src="img/fig1l_2.jpg" border=0 style="cursor: hand" onClick="showImg(this.src, 
+      'Fig. 2', 
+      'Figura 2', 'Un detaliu al zonei de inciden&#355;&#259;.'); return false" ><BR>
+      <B>Fig. 2. &nbsp;</B><IMG src="img/vrmla.gif" style="cursor: hand" onClick="showVrml('vrml/fig1l_2.wrl',
+                             'Fig. 2',
+                             'Figura 2', 'Un detaliu al zonei de inciden&#355;&#259;.'); return false">
+   Un detaliu al zonei de inciden&#355;&#259;.</CENTER>
+</DIV>
+
+<P><DIV class=challange>
+  <IMG src="img/challange.jpg">&nbsp;<B>Provocarea&nbsp;2</B>
+  <P>Cu c&#226;t este mai lung traseul <I>SI'</I> dec&#226;t <I>SI</I>?
+</DIV>
+
+<P>&#206;n figura&nbsp;2, segmentul <I>IM</I> este perpendicular &#238;n <I>M</I> pe <I>SI'</I>. Triunghiul <I>SIM</I> are c&#226;teva propriet&#259;&#355;i interesante!
+
+<P>Cu c&#226;t &Delta;<I>x</I> este mai mic, cu at&#226;t unghiul din <I>S</I> al triunghiului <I>SIM</I> este mai mic.
+
+<P>A&#351;adar, unghiul din <I>I</I> al triunghiului <I>SIM</I> este din ce &#238;n ce mai aproape de 90<SUP>0</SUP> &minus; triunghiul <I>SIM</I> este din ce &#238;n ce
+   mai aproape de a fi isoscel.
+   
+<P>Astfel, segmentul <I>MI'</I> (a c&#259;rui lungime este notat&#259; &Delta;<I>l</I><SUB>1</SUB>) este chiar suplimentul de drum al traseului <I>SI'</I> fa&#355;&#259; de
+   <I>SI</I>. 
+   
+<P>&#206;n concluzie, cu c&#226;t &Delta;<I>x</I> este mai mic, cu at&#226;t mai bun&#259; este aproxima&#355;ia:
+
+<P align=center><IMG src="img/e1l_1.gif">
+
+<P>&#206;n figura&nbsp;3 este reprezentat un detaliu al zonei de inciden&#355;&#259;, <I>dup&#259;</I> reflexie.
+
+<P><DIV class=image>
+   <CENTER><IMG src="img/fig1l_3.jpg" border=0 style="cursor: hand" onClick="showImg(this.src, 
+      'Fig. 3', 
+      'Figura 3', 'Un detaliu al zonei de inciden&#355;&#259;, dup&#259; reflexie.'); return false" ><BR>
+      <B>Fig. 3. &nbsp;</B><IMG src="img/vrmla.gif" style="cursor: hand" onClick="showVrml('vrml/fig1l_3.wrl',
+                             'Fig. 3',
+                             'Figura 3', 'Un detaliu al zonei de inciden&#355;&#259;, dup&#259; reflexie.'); return false">
+   Un detaliu al zonei de inciden&#355;&#259;, dup&#259; reflexie.</CENTER>
+</DIV>
+
+<P>O analiz&#259; asem&#259;n&#259;toare conduce la:
+
+<P align=center><IMG src="img/e1l_2.gif">
+
+<P>Acesta este drumul suplimentar al traseului <I>IR</I> fa&#355;&#259; de <I>I'R</I>.
+
+<P>&#206;n concluzie, traseul vecin <I>SI'R</I> este mai lung cu &Delta;l<SUB>1</SUB> &#351;i mai scurt cu &Delta;l<SUB>2</SUB> fa&#355;&#259; de traseul <I>SIR</I>.
+
+<P>Dac&#259; <I>i</I>&nbsp;=&nbsp;<I>r</I>, cele dou&#259; cantit&#259;&#355;i <I>se compenseaz&#259;</I> &#351;i traseele vecine necesit&#259; <I>aproape</I> acela&#351;i timp de parcurgere. 
+
+<P>Astfel, legile reflexiei <I>rezult&#259;</I> din condi&#355;ia ca traseele vecine s&#259; necesite aproape acela&#351;i timp de parcurgere!
+
+<P>Rezult&#259; oare din aceast&#259; condi&#355;ie &#351;i legile refrac&#355;iei?
+
+<P>&#206;n figura&nbsp;4 este reprezentat un detaliu al zonei de inciden&#355;&#259; a luminii care se refract&#259;.
+
+<P><DIV class=image>
+   <CENTER><IMG src="img/fig1l_4.jpg" border=0 style="cursor: hand" onClick="showImg(this.src, 
+      'Fig. 4', 
+      'Figura 4', 'Un detaliu al zonei de incinden&#355;&#259; a luminii care se refract&#259;.'); return false" ><BR>
+      <B>Fig. 4. &nbsp;</B><IMG src="img/vrmla.gif" style="cursor: hand" onClick="showVrml('vrml/fig1l_4.wrl',
+                             'Fig. 4',
+                             'Figura 4', 'Un detaliu al zonei de incinden&#355;&#259; a luminii care se refract&#259;.'); return false">
+   Un detaliu al zonei de incinden&#355;&#259; a luminii care se refract&#259;.</CENTER>
+</DIV>
+
+<P>Traseul <I>SI'R</I> este mai lung cu 
+
+<P align=center><IMG src="img/e1l_3.gif">
+
+<P>iar traseul <I>SIR</I> este mai lung cu
+
+<P align=center><IMG src="img/e1l_4.gif">
+
+<P>&#206;n cazul refrac&#355;iei, pentru <I>i</I>&nbsp;&gt;&nbsp;<I>r</I>, ca &#238;n cazul refrac&#355;iei din aer &#238;n sticl&#259;, &Delta;l<SUB>1</SUB>&nbsp;&gt;&nbsp;&Delta;l<SUB>2</SUB>.
+
+<P>Durata de parcurgere a celor dou&#259; trasee poate fi aproape identic&#259; dac&#259; <I>vitezele</I> cu care trece lumina prin cele dou&#259; medii sunt diferite!
+
+<P>Traseele vor fi parcurse &#238;n timpi aproape egali, dac&#259;
+
+<P align=center><IMG src="img/e1l_5.gif">
+
+<P>unde <I>v</I><SUB>1</SUB> este viteza luminii &#238;n mediul &#238;n care se afl&#259; sursa <I>S</I>, iar <I>v</I><SUB>2</SUB> este viteza luminii &#238;n cel&#259;lalt mediu.
+
+<P>Din aceast&#259; condi&#355;ie ob&#355;inem:
+
+<P align=center><IMG src="img/e1l_6.gif">
+
+<P>Dup&#259; simplific&#259;ri &#351;i rearanj&#259;ri, ob&#355;inem:
+
+<P align=center><IMG src="img/e1l_7.gif">
+
+<P>Aceasta este chiar <I>legea a doua a refrac&#355;iei</I>!
+
+<P>Ce numeam p&#226;n&#259; acum indice de refrac&#355;ie relativ al celor dou&#259; medii, este de fapt raportul vitezelor luminii &#238;n cele dou&#259; medii.
+
+<P>Indicele de refrac&#355;ie (absolut) al unui mediu este raportul dintre viteza luminii &#238;n vid &#351;i viteza luminii &#238;n acel mediu.
+
+<P>A&#351;adar, &#351;i legile refrac&#355;iei <I>rezult&#259;</I> din condi&#355;ia ca traseele vecine s&#259; necesite aproape acela&#351;i timp de parcurgere!
+
+<P>Dispunem acum de o regul&#259; mult mai profund&#259;:
+
+<P><DIV class=key>
+  <IMG src="img/key.jpg">
+  <P><B>Traseul pe care se propag&#259; lumina &#238;ntre dou&#259; puncte este acela pentru care timpul de parcurgere este minim.</B>
+</DIV>
+
+<P>Din aceast&#259; regul&#259; deducem legile reflexiei &#351;i refrac&#355;iei luminii, dar &#351;i c&#259; indicele de refrac&#355;ie relativ a dou&#259; medii este raportul vitezelor luminii
+   &#238;n cele dou&#259; medii.
+   
+<P>Totodat&#259;, aceast&#259; regul&#259; prevede c&#259;, de exemplu, viteza luminii &#238;n ap&#259; este de 1,33 de ori mai mic&#259; dec&#226;t &#238;n aer. C&#226;nd au fost m&#259;surate vitezele luminii
+   &#238;n aer &#351;i &#238;n ap&#259;, s&minus;a ob&#355;inut exact acest raport al vitezelor!
+   
+<P>C&#226;t de invecinate trebuie s&#259; fie traseele implicate &#238;n aceast&#259; regul&#259; &#351;i c&#226;t de apropiate sunt duratele de parcurgere, sunt &#238;ntreb&#259;ri care ne conduc spre
+   o nou&#259; viziune asupra luminii, viziune cu care te vei &#238;nt&#226;lni &#238;n anii urm&#259;tori la fizic&#259;.
+
+</BODY>
+</HTML>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

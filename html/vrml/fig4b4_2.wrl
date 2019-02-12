@@ -1,0 +1,149 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Vector [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_vector.wrl"
+
+EXTERNPROTO	Tube [
+	field	SFFloat	extRadius
+	field	SFFloat	intRadius
+	field	SFFloat	height
+	field	SFInt32	resolution
+	field	SFNode  app
+]"p_tube.wrl"	
+
+Viewpoint {
+  position 0 0 5
+  fieldOfView .2
+}
+
+Transform {
+  children [
+    DEF LeftTube Transform {
+      translation -.4 0 0
+      children [
+        Tube {
+          extRadius .204
+          intRadius .2
+          height .8
+          app Appearance {
+            material Material {
+              transparency .7
+            }
+          }
+        }
+        Transform {
+          translation 0 -.15 0
+          children [
+            Shape {
+              geometry Cylinder {
+                radius .2
+                height .5
+              }
+              appearance Appearance {
+                material Material {
+                  transparency .5
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+
+    DEF RightTube Transform {
+      translation .4 0 0
+      children [
+        Tube {
+          extRadius .104
+          intRadius .1
+          height .8
+          app Appearance {
+            material Material {
+              transparency .7
+            }
+          }
+        }
+        Transform {
+          translation 0 -.15 0
+          children [
+            Shape {
+              geometry Cylinder {
+                radius .1
+                height .5
+              }
+              appearance Appearance {
+                material Material {
+                  transparency .5
+                }
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 .05 0
+          children [
+            Shape {
+              geometry Cylinder {
+                radius .1
+                height .1
+              }
+              appearance Appearance {
+                material Material {
+                  transparency .3
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+
+    DEF ConnectingTube Transform {
+      rotation 0 0 1 1.57
+      translation .05 -.3 0
+      children [
+        Tube {
+          extRadius .034
+          intRadius .03
+          height .52
+          app Appearance {
+            material Material {
+              transparency .7
+            }
+          }
+        }
+        Transform {
+          children [
+            Shape {
+              geometry Cylinder {
+                radius .03
+                height .52
+              }
+              appearance Appearance {
+                material Material {
+                  transparency .5
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+
+
+  ]
+}
+
+Vector {
+  Position .4 .05 0
+  Direction -.6 .1 0
+}

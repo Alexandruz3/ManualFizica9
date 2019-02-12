@@ -1,0 +1,252 @@
+#VRML V2.0 utf8
+
+
+Viewpoint	{
+	position 0 0 .8
+}
+
+DirectionalLight {
+	direction	0 -1 0
+	intensity	.3
+}
+
+EXTERNPROTO Vector [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_vector.wrl"
+
+EXTERNPROTO VectorLabel[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_vectorlabel.wrl"
+
+Transform {
+  rotation 0 0 1 .2
+  children [
+    DEF	Cart Transform {
+	    children [
+		    DEF	CartBody Transform {
+			    translation	0 .04 0
+			    children [
+				    Shape	{
+					    geometry Box {
+						    size .3 .04 .2
+					    }
+					    appearance Appearance	{
+						    material Material	{
+							    diffuseColor 0 0 .7
+							    shininess	.1
+							    specularColor	0 0 1
+							    ambientIntensity .1
+                  transparency .5
+						    }
+					    }
+				    }
+
+				    DEF	FrontAxle Transform	{
+					    translation	.1 0 0
+					    rotation 1 0 0 1.57
+					    children [
+						    DEF Axle Shape	{
+							    geometry Cylinder	{
+								    radius .005
+								    height .24
+							    }
+							    appearance DEF AxleApp Appearance	{
+								    material Material	{
+									    diffuseColor .9 .9 .9
+									    shininess	.2
+								    }
+							    }
+						    }
+					    ]
+				    }
+
+				    DEF	RearAxle Transform {
+					    translation	-.1 0 0
+					    rotation 1 0 0 1.57
+					    children [
+						    USE	Axle
+					    ]
+				    }
+
+				    DEF	FrontRightWheel Transform	{
+					    translation	.1 0 .11
+					    rotation 1 0 0 1.57
+					    children [
+						    DEF	Wheel Shape	{
+							    geometry Cylinder	{
+								    radius .04
+								    height .015
+							    }
+							    appearance DEF WheelApp Appearance {
+								    material Material	{
+									    diffuseColor .7 0 0
+									    shininess	.1
+								    }
+							    }
+						    }	
+					    ]
+				    }
+
+				    DEF	FrontLeftWheel Transform {
+					    translation	.1 0 -.11
+					    rotation 1 0 0 1.57
+					    children [
+						    USE	Wheel
+					    ]
+				    }
+
+				    DEF	RearRightWheel Transform {
+					    translation	-.1 0 .11
+					    rotation 1 0 0 1.57
+					    children [
+						    USE	Wheel
+					    ]
+				    }
+
+				    DEF	RearLeftWheel Transform {
+					    translation	-.1 0 -.11
+					    rotation 1 0 0 1.57
+					    children [
+						    USE	Wheel
+					    ]
+				    }
+
+
+			    ]
+		    }
+	    ]
+    }
+  ]
+}
+
+DEF Ramp Transform {
+  translation 0 -.04 0
+  children [
+    Shape {
+      geometry Extrusion {
+        crossSection [
+          -.2 0
+          .2 0
+          .2 -.08
+          -.2 0
+        ]
+        spine [
+          0 0 -.2
+          0 0 .2
+        ]
+      }
+      appearance Appearance {
+        material Material {
+          transparency .1
+        }
+      }
+    }
+  ]
+}
+
+DEF GVector Transform {
+  translation 0 .05 0
+  children [
+    Vector {
+      Position 0 0 0
+      Direction 0 -.28 0
+      StemRadius .004
+      HeadRadius .012
+      HeadSize .03
+      StemColor 0 0 1
+      HeadColor 0 0 1
+    }
+  ]
+}
+
+
+DEF NVector Transform {
+  translation 0 0.05 0
+  rotation 0 0 1 .2
+  children [
+    Vector {
+      Position 0 0 0
+      Direction 0 .25 0
+      StemRadius .004
+      HeadRadius .012
+      HeadSize .03
+      StemColor .5 .5 .5
+      HeadColor .5 .5 .5
+    }
+  ]
+}
+
+DEF FfVector Transform {
+  translation 0 0.05 0
+  rotation 0 0 1 .2
+  children [
+    Vector {
+      Position 0 0 0
+      Direction -.3 0 0
+      StemRadius .004
+      HeadRadius .012
+      HeadSize .03
+      StemColor 1 0 0
+      HeadColor 1 0 0
+    }
+  ]
+}
+
+DEF FtVector Transform {
+  translation 0 0.05 0
+  rotation 0 0 1 .2
+  children [
+    Vector {
+      Position 0 0 0
+      Direction .35 0 0
+      StemRadius .004
+      HeadRadius .012
+      HeadSize .03
+      StemColor 1 1 0
+      HeadColor 1 1 0
+    }
+  ]
+}
+
+Transform {
+  scale 2 2 2
+  children [
+
+    VectorLabel {
+      text "G"
+      position .01 -.07 0
+      color 0 0 1
+    }
+
+    VectorLabel {
+      text "N"
+      position 0 .08 0
+      color .5 .5 .5
+    }
+
+    VectorLabel {
+      text "F"
+      position .11 .055 0
+      color .9 .9 0
+    }
+
+    VectorLabel {
+      text "  F"
+      sub "f"
+      position -.11 .015 0
+      color 1 0 0
+    }
+  ]
+}

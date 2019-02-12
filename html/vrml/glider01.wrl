@@ -1,0 +1,213 @@
+#VRML V2.0 utf8
+
+# Un punct de vedere avantajos!
+Viewpoint	{
+	position 0 .5 .9
+	orientation	1 0 0 -.51
+}
+
+DirectionalLight {
+  intensity .5
+  direction 0 -1 0
+}
+
+# Masa
+DEF	Table Transform	{
+	children [
+
+		#Tablia mesei
+		DEF	Plate Transform	{
+			translation	0 -.01 0
+			children [
+				Shape	{
+					geometry Box { size	1.2 .02 .4 }
+					appearance DEF Wood Appearance {
+						material Material	{
+							diffuseColor .6 .4 .2
+						}	
+					}
+				}
+			]
+		}
+
+	  # Marginea lunga din spate
+		Transform	{
+			translation	0 .01 -.19
+			children [
+				DEF	LongMargin Shape {
+					geometry Box { size	1.2 .02 .02 }
+					appearance DEF Margin Appearance {
+						material Material	{
+							diffuseColor 1 .5 0
+						}
+					}
+				}
+			]
+		}
+
+		# Marginea lunga din fata
+		Transform	{
+			translation	0 .01 .19
+			children USE LongMargin
+		}
+
+		# Marginea scurta din stanga
+		Transform	{
+			translation	-.59 .01 0
+			children [
+				DEF	ShortMargin Shape	{
+					geometry Box { size	.02 .02 .36 }
+					appearance USE Margin
+				}
+			]
+		}
+
+		# Marginea scurta din dreapta
+		Transform	{
+			translation	.59 .01 0
+			children USE ShortMargin
+		}
+	]
+}
+
+# Aeroglisorul
+DEF	Glider Transform {
+	children [
+
+		# Discul
+		DEF	Disk Transform {
+			translation	0 .0005 0
+			children [
+				Shape	{
+					geometry Cylinder	{
+						radius .06
+						height .001
+					}
+					appearance Appearance	{
+						material Material	{
+							diffuseColor .7 .7 .7
+							shininess	.2
+							specularColor	.9 .9 .9
+						}
+					}
+				}
+			]
+		}
+
+		# Capacul
+		DEF	Cap Transform	{
+			translation	0 .0076 0
+			children [
+				Shape	{
+					geometry Cylinder	{
+						radius .015
+						height .015
+					}
+					appearance Appearance	{
+						material Material	{
+							diffuseColor 0 .5 0
+							shininess	.1
+							specularColor	.5 1 .5
+						}
+					}
+				}
+			]
+		}
+
+		# Gatul balonului
+		DEF	Neck Transform {
+			translation	0 .0235 0
+			children [
+				Shape	{
+					geometry Cylinder	{
+						radius .0075
+						height .015
+					}
+					appearance DEF Rubber Appearance	{
+						material Material	{
+							diffuseColor 1 0 0
+							shininess	0
+						}
+					}
+				}
+			]
+		}
+
+		# Grupul balon - senzor
+		Group	{
+			children [
+				
+				# Balonul
+				DEF	Baloon Transform {
+					translation	0 .13 0
+					children [
+						Shape	{
+							geometry Sphere { radius .10 }
+							appearance USE Rubber
+						}
+					]
+				}
+				
+				# Senzorul de atingere
+				DEF	Sensor TouchSensor {}
+			]
+		}
+	]
+}
+
+# Ceasul care controleaza miscarea de ansamblu a aeroglisorului
+DEF	MoveTimer TimeSensor {
+	cycleInterval	25
+	loop FALSE
+}
+
+# Interpolatorul pozitiilor aeroglisorului
+DEF	Mover PositionInterpolator {
+	key	[0 .125 .325 .625 .875 1]
+	keyValue [
+		 0 0 0
+		 -.52 0 0
+		 .52 0 0 
+		 -.52 0 0
+		 .52 0 0
+		 0 0 0
+	]
+}
+
+# Ceasul care controleaza dezumflarea balonului
+DEF	DeflateTimer TimeSensor	{
+	cycleInterval	25
+	loop FALSE
+}
+
+# Interpolatorul scalarii balonului care se dezumfla
+DEF	Deflater PositionInterpolator	{
+	key	[0 1]
+	keyValue [
+		1 1 1
+		.3 .4 .3
+	]
+}
+
+# Interpolatorul coborarii balonului pe masura ce se dezumfla
+DEF	Descender PositionInterpolator {
+	key	[0 1]
+	keyValue [
+		0 .13 0
+		0 .06 0
+	]
+}
+
+# Conexiunile pentru miscarea de ansamblu a balonului
+ROUTE	Sensor.touchTime TO	MoveTimer.startTime
+ROUTE	MoveTimer.fraction_changed TO	Mover.set_fraction
+ROUTE	Mover.value_changed	TO Glider.translation
+
+# Conexiunile pentru dezumflarea balonului
+ROUTE	Sensor.touchTime TO	DeflateTimer.startTime
+ROUTE	DeflateTimer.fraction_changed	TO Deflater.set_fraction
+ROUTE	Deflater.value_changed TO	Baloon.scale
+
+# Conexiunile pentru coborarea balonului pe masura ce se dezumfla
+ROUTE	DeflateTimer.fraction_changed	TO Descender.set_fraction
+ROUTE	Descender.value_changed	TO Baloon.translation

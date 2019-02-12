@@ -1,0 +1,239 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Eye [
+  field SFFloat R
+  field SFFloat r
+  field SFFloat a
+  field SFFloat a1
+  field SFInt32 resolution
+  field SFColor color
+]"p_eye.wrl"
+
+EXTERNPROTO FCLens [
+  field SFFloat apperture
+  field SFInt32 resolution
+  field SFFloat radius1
+  field SFFloat radius2
+  field SFFloat shiftX
+  field SFFloat height
+  field SFBool outline
+  field SFColor outlineColor
+  field SFNode app
+]"p_fclens.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO FDLens [
+  field SFFloat apperture
+  field SFInt32 resolution
+  field SFFloat radius1
+  field SFFloat radius2
+  field SFFloat shiftX
+  field SFFloat height
+  field SFBool outline
+  field SFColor outlineColor
+  field SFNode app
+]"p_fdlens.wrl"
+
+Viewpoint {
+  position 0 0 .07
+}
+
+Transform {
+  translation .015 0 0
+  children [
+
+    Eye {}
+
+    Transform {
+      translation -.007 0 0
+      children [
+        FCLens {
+          apperture .008
+          radius1 .01
+          radius2 -.006
+          height .0001
+        }
+      ]
+    }
+
+    Transform {
+      translation -.02 0 0
+      children [
+        FDLens {
+          apperture .05
+          radius1 .08
+          radius2 .04
+          height .0001
+          shiftX 0.004
+        }
+      ]
+    }
+
+    Line {
+      startAt -.1 0 0
+      endAt .1 0 0
+    }
+
+    Line {
+      startAt -.1 0.0001 0
+      endAt .1 0.0001 0
+    }
+
+    Line {
+      startAt -.1 .002 0
+      endAt -.0283 .002 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.1 .0021 0
+      endAt -.0283 .0021 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.0283 .002 0
+      endAt -.0238 .0021 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.0283 .0021 0
+      endAt -.0238 .0022 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.0238 .0021 0
+      endAt -.007 .0035 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.0238 .0022 0
+      endAt -.007 .0036 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.007 .0035 0
+      endAt .010 0 0
+      color 1 0 0 
+    }
+
+    Line {
+      startAt -.007 .0036 0
+      endAt .010 0.0001 0
+      color 1 0 0 
+    }
+
+    Transform {
+      rotation 0 0 1 -1.57
+      translation -.035 .002 0
+      children [
+        DEF cone Shape {
+          geometry Cone {
+            bottomRadius .0006
+            height .003
+          }
+          appearance Appearance {
+            material Material {
+              diffuseColor 1 0 0
+            }
+          }
+        }
+      ]
+    }
+
+    Line {
+      startAt -.1 -.002 0
+      endAt -.0283 -.002 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.1 -.0019 0
+      endAt -.0283 -.0019 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.0283 -.002 0
+      endAt -.0238 -.0021 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.0283 -.0019 0
+      endAt -.0238 -.0020 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.0238 -.0021 0
+      endAt -.007 -.0035 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.0238 -.0020 0
+      endAt -.007 -.0034 0
+      color 1 0 0
+    }
+
+    Line {
+      startAt -.007 -.0035 0
+      endAt .010 0 0
+      color 1 0 0 
+    }
+
+    Line {
+      startAt -.007 -.0034 0
+      endAt .010 0.0001 0
+      color 1 0 0 
+    }
+
+    Transform {
+      rotation 0 0 1 -1.57
+      translation -.035 -.002 0
+      children USE cone
+    }
+
+  ]
+}
+
+#Ray {
+#  Position -.1 .005 0
+#  Direction .0717 0 0
+#  StemRadius .00015
+#  HeadRadius .0008
+#  HeadSize .004
+#  HeadPos .065
+#}
+
+#Ray {
+#  Position -.0283 .005 0
+#  Direction .0045 -.0001 0
+#  StemRadius .00015
+#  HeadRadius .0008
+#  HeadSize .004
+#  HeadPos 1
+#}

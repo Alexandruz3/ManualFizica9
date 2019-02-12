@@ -1,0 +1,286 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+Viewpoint{
+  position -0.03 0 .2
+}
+
+Line {
+  startAt 0 -.12 0.001
+  endAt   0  .12 0.001
+}
+
+Line {
+  startAt -.105 0 0
+  endAt    .105 0 0
+}
+
+Transform {
+  translation 0 0 0.06
+  children [
+    Shape {
+      geometry Box { size 0.12 0.001 0.12}
+      appearance Appearance {
+        material Material {
+          transparency .5
+        }
+      }
+    }
+  ]
+}
+
+DEF Rays Transform {
+  translation -0 0 0.001
+  children [
+    DEF IRay Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0 -.03 0
+            -0.03 0 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 0 0
+          ]
+        }
+      }
+    }
+
+
+    DEF rRay Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            -0.03 0 0
+            -.09 -.06 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+
+
+    DEF IRay1 Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            0 -.03 0
+            -0.04 0 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 0 0
+          ]
+        }
+      }
+    }
+
+
+    DEF rRay1 Shape {
+      geometry IndexedLineSet {
+        coord Coordinate {
+          point[
+            -0.04 0 0
+            -.12 -.06 0
+          ]
+        }
+        coordIndex [
+          0 1 -1
+        ]
+        color Color {
+          color [
+            1 0 0 
+            1 1 1
+          ]
+        }
+      }
+    }
+
+    Line {
+      startAt -.03 0 0
+      endAt 0 0.03 0
+      color .7 .7 .7
+    }
+
+    Line {
+      startAt -.04 0 0
+      endAt 0 0.03 0
+      color .7 .7 .7
+    }
+
+
+  ]
+
+}
+
+Line {
+  startAt -0.03 0 0
+  endAt -0.03 -0.05 0
+  color .7 .7 .7
+}
+
+Line {
+  startAt -0.04 0 0
+  endAt -0.04 -0.05 0
+  color .7 .7 .7
+}
+
+Arc {
+  centerAt -.03 0 0
+  radius 0.01
+  startAt 270
+  angle 45
+  color .7 .7 .7
+}
+
+Arc {
+  centerAt -.03 0 0
+  radius 0.012
+  startAt 270
+  angle -45
+  color .7 .7 .7
+}
+
+Arc {
+  centerAt -.04 0 0
+  radius 0.02
+  startAt 270
+  angle 52
+  color .7 .7 .7
+}
+
+Arc {
+  centerAt -.04 0 0
+  radius 0.022
+  startAt 270
+  angle -52
+  color .7 .7 .7
+}
+
+Arc {
+  centerAt -.04 0 0
+  radius 0.021
+  startAt 270
+  angle 52
+  color .7 .7 .7
+}
+
+Arc {
+  centerAt -.04 0 0
+  radius 0.023
+  startAt 270
+  angle -52
+  color .7 .7 .7
+}
+
+Transform {
+  scale .5 .5 .5
+  children [
+
+    Label {
+      text "P'"
+      position .009 .054 0
+    }
+
+    Label {
+      text "I"
+      position .008 .01 0
+    }
+
+    Label {
+      text "P"
+      position .009 -.066 0
+    }
+
+    Label {
+      text "R"
+      sub "2"
+      position -.22 -.1 0
+    }
+
+    Label {
+      text "R"
+      sub "1"
+      position -.16 -.1 0
+    }
+
+    Label {
+      text "I"
+      sub "2"
+      position -.09 .01 0
+    }
+
+    Label {
+      text "I"
+      sub "1"
+      position -.05 .01 0
+    }
+
+    Transform {
+      scale .7 .7 .7
+      children [
+        Label {
+          text "r"
+          sub "2"
+          position -.16 -.05 0
+        }
+        Label {
+          text "i"
+          sub "2"
+          position -.08 -.05 0
+        }
+        Label {
+          text "r"
+          sub "1"
+          position -.103 -.03 0
+        }
+        Label {
+          text "i"
+          sub "1"
+          position -.073 -.03 0
+        }
+      ]
+    }
+  ]
+}

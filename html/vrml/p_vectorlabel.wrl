@@ -1,0 +1,77 @@
+#VRML V2.0 utf8
+
+#EXTERNPROTO VectorLabel[
+#  field MFString text
+#  field MFString sub
+#  field SFVec3f position
+#  field SFFloat size
+#  field SFColor color
+#]"p_vectorlabel.wrl"
+
+EXTERNPROTO Vector [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_vector.wrl"
+
+PROTO Label[
+  field MFString text ""
+  field MFString sub ""
+  field SFVec3f position 0 0 0
+  field SFFloat size .02
+  field SFColor color 1 0 0
+]
+{
+  Transform {
+    translation IS position
+    children Billboard {
+      axisOfRotation 0 0 0
+      children [
+        Shape {
+          geometry Text {
+            string IS text
+            fontStyle FontStyle {
+              size IS size
+              justify "MIDDLE"
+            }
+          }
+          appearance DEF App Appearance {
+            material Material {
+              diffuseColor IS color
+            }
+          }
+        }
+        Transform {
+          translation .01 -.005 0
+          children [
+            Shape {
+              geometry Text {
+                string IS sub
+                fontStyle FontStyle {
+                  size .015
+                  justify "MIDDLE"
+                }
+              }
+              appearance USE App
+            }
+          ]
+        }
+        Vector {
+          Position -.005 .018 0
+          Direction .012 0 0
+          StemColor IS color
+          HeadColor IS color
+          StemRadius .0007
+          HeadRadius .002
+          HeadSize .005
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,198 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO SCLens [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat apperture
+]"p_sclens.wrl"
+
+EXTERNPROTO Arrow [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_arrow.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+EXTERNPROTO Quota [
+  field SFVec3f startAt
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat lenght
+]"p_quota.wrl"
+
+EXTERNPROTO Label[
+  field MFString text
+  field MFString sub
+  field SFVec3f position
+  field SFFloat size
+  field SFColor color
+]"p_label.wrl"
+
+EXTERNPROTO Arc [
+  field SFVec3f centerAt
+  field SFFloat radius
+  field SFFloat startAt
+  field SFFloat angle
+  field SFInt32 resolution
+  field SFColor color
+]"p_arc.wrl" 
+
+
+Viewpoint {
+  position 0 0 .25
+}
+
+Line {
+  startAt -.15 0 0
+  endAt .15 0 0
+}
+
+SCLens {}
+
+Line {
+  startAt -.05 0.003 0
+  endAt -.05 -.003 0
+}
+
+Line {
+  startAt .05 0.003 0
+  endAt .05 -.003 0
+}
+
+Arrow {
+  position -.052 0 0
+}
+
+Transform {
+  translation 1.3 0 0
+  rotation 0 0 1 3.14
+  children Arrow {
+    lenght .75
+    color .5 .5 .5
+  }
+}
+
+Transform {
+  translation 0 0 0
+  rotation 0 0 1 -1.57
+  children Arrow {
+    lenght .15
+  }
+}
+
+Ray {
+  Position -.052 .03 0
+  Direction .052 0 0
+  HeadPos .03
+}
+
+Ray {
+  Position 0 .03 0
+  Direction .2 -.12 0
+  HeadPos .03
+}
+
+Ray {
+  Position 0 .03 0
+  Direction .2 -.12 0
+  HeadPos .1
+}
+
+Ray {
+  Position -.052 .03 0
+  Direction .052 -.03 0
+  StemColor .5 .5 .5
+  HeadColor .5 .5 .5
+  HeadPos .03
+}
+
+Ray {
+  Position 0 0 0
+  Direction .2 -.12 0
+  StemColor .5 .5 .5
+  HeadColor .5 .5 .5
+  HeadPos .08
+}
+
+#Ray {
+#  Position 0 0 0
+#  Direction .2 -.12 0
+#  StemColor .5 .5 .5
+#  HeadColor .5 .5 .5
+#  HeadPos .26
+#}
+
+#Line {
+#  startAt -.12 0 0
+#  endAt -.12 -.04 0
+#  color .7 .7 .7
+#}
+
+#Line {
+#  startAt .0857 -.0214 0
+#  endAt .0857 -.04 0
+#  color .7 .7 .7
+#}
+
+#Quota {
+#  startAt -.12 -.035 0
+#  lenght .12
+#  color .7 .7 .7
+#}
+
+#Quota {
+#  startAt 0 -.035 0
+#  lenght .0857
+#  color .7 .7 .7
+#}
+
+Arc {
+  centerAt 0 0 0
+  startAt 150
+  angle 30
+}
+
+Label {
+  text "F"
+  position -.05 -.02 0
+}
+
+Label {
+  text "h"
+  position -.06 .01 0
+}
+
+Label {
+  text "α"   #\206\177
+  position -.022 .001 0
+}
+
+Label {
+  text "L"
+  position .01 .04 0
+}
+
+

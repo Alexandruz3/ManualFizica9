@@ -1,0 +1,66 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO SCLens [
+  field SFVec3f position
+  field SFFloat arrowAngle
+  field SFFloat arrowLenght
+  field SFColor color
+  field SFFloat apperture
+]"p_sclens.wrl"
+
+EXTERNPROTO Line [
+  field SFVec3f startAt
+  field SFVec3f endAt
+  field SFColor color
+]"p_line.wrl"
+
+EXTERNPROTO Ray [
+	eventIn	SFVec3f	set_Position
+	eventIn	SFVec3f	set_Direction
+	field SFVec3f Position
+	field SFVec3f Direction
+	field SFFloat StemRadius
+ field SFFloat HeadPos
+	field SFFloat HeadRadius
+	field SFFloat HeadSize
+	field SFColor HeadColor
+	field	SFColor	StemColor
+]"p_ray.wrl"
+
+Viewpoint {
+  position 0 0 .3
+}
+
+SCLens {}
+
+Line {
+  startAt -.15 0 0
+  endAt .15 0 0
+}
+
+Line {
+  startAt .1 .003 0
+  endAt .1 -.003 0
+} 
+
+Ray {
+  Position -5 0 0
+  Direction 5 .02 0
+  HeadPos 4.95
+}
+
+Ray {
+  Position 0 .02 0
+  Direction .2 -.04 0
+}
+
+Ray {
+  Position -5 0 0
+  Direction 5 -.02 0
+  HeadPos 4.95
+}
+
+Ray {
+  Position 0 -.02 0
+  Direction .2 .04 0
+}
